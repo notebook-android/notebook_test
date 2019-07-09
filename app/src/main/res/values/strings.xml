@@ -33,7 +33,7 @@
     <!--关于-->
     <string name="pref_header_about">关于</string>
     <string name="summary_about">Hi! there! glad to meet you again.</string>
-    <string name="app_version">0.52</string>
+    <string name="app_version">0.54</string>
     <string name="summary_support">反馈任何问题</string>
     <!--反馈-->
     <string name="title_send_feedback">发送回执</string>
