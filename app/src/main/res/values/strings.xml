@@ -6,7 +6,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
 
-    <string name="menu_home">Home</string>
+    <string name="menu_home">主页</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_settings">设置</string>
@@ -18,4 +18,43 @@
     <string name="title_calender">日历</string>
     <string name="title_notifications">待定</string>
     <string name="title_search">搜索</string>
+
+    <!--偏好设置-->
+    <!--响铃-->
+    <string name="pref_title_ringtone">提醒音乐</string>
+    <string name="pref_ringtone_silent">静默</string>
+    <!--存储-->
+    <string name="default_gallery_storage">默认存储</string>
+    <string name="title_auto_upload">自动上传</string>
+    <string name="summary_upload_over_wifi">移动网络或局域网连接时自动上传</string>
+    <!--通知-->
+    <string name="pref_title_notifications">通知</string>
+    <string name="summary_choose_ringtone">选择通知音乐</string>
+    <!--关于-->
+    <string name="pref_header_about">关于</string>
+    <string name="summary_about">Hi! there! glad to meet you again.</string>
+    <string name="app_version">0.5</string>
+    <string name="summary_support">反馈任何问题</string>
+    <!--反馈-->
+    <string name="title_send_feedback">发送回执</string>
+    <string name="title_faq">FAQ</string>
+    <string name="summary_faq">查看常见问题</string>
+    <string name="url_faq">https://www.androidhive.info/privacy-policy/</string>
+    <string name="privacy_policy">隐私</string>
+    <string name="url_privacy">#</string>
+    <string name="title_terms">条款</string>
+    <string name="url_terms">#</string>
+    <string name="title_version">版本</string>
+    <string name="choose_email_client">Choose email client</string>
+    <string name="title_gallery_storage">默认存储</string>
+    <string name="title_new_notification_sound">消息推送</string>
+    <string name="title_vibrate">震动</string>
+    <string name="summary_vibrate">新消息震动提醒</string>
+    <string name="key_upload_over_wifi">key_upload_over_wifi</string>
+    <string name="key_gallery_name">key_gallery_name</string>
+    <string name="key_upload_quality">key_upload_quality</string>
+    <string name="notifications_new_message">notifications_new_message</string>
+    <string name="key_notifications_new_message_ringtone">key_notifications_new_message_ringtone</string>
+    <string name="key_vibrate">key_vibrate</string>
+    <string name="key_send_feedback">key_send_feedback</string>
 </resources>
