@@ -14,9 +14,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CalendarView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private CalendarView cv;//定义日历控件按钮
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +49,45 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        //listview的事件
+
+        final List<String> items = new ArrayList<String>(); //设置要显示的数据，这里因为是例子，所以固定写死
+        items.add("item1");
+        items.add("item2");
+        items.add("item3");
+        items.add("item4");
+        items.add("item5");
+        items.add("item6");
+        ListView listView =  findViewById(R.id.listView1); // 从布局中获取listview，也可以动态创建
+        listView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_expandable_list_item_1, items));//关联Adapter
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //设置点击ListView中的条目的响应对象
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, //响应方法，其中view是一个TextView对象，position是选择条目的序号
+                                    int position, long id) {
+                Toast.makeText(getApplicationContext(), items.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        //日历的响应事件，这里先把时间提取出来
+        cv = findViewById(R.id.calendarview);
+        cv.setOnDateChangeListener(new CalendarView.OnDateChangeListener(){
+
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year,
+                                            int month, int dayOfMonth) {
+                // TODO Auto-generated method stub
+                //使用Toast显示用户选择的日期
+                Toast.makeText(getApplicationContext(),
+                        "你生日是"+year+"年"+month+"月"+dayOfMonth+"日"
+                        , Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+
+
     }
 
     @Override
