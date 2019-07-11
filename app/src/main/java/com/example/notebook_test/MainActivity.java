@@ -79,11 +79,9 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(),
                         "你生日是"+year+"年"+month+"月"+dayOfMonth+"日"
                         , Toast.LENGTH_SHORT).show();
+
             }
-
         });
-
-
 
     }
 
@@ -113,7 +111,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.search_item) {
-            startActivity(new Intent(MainActivity.this,SearchActivity.class));
+           // startActivity(new Intent(MainActivity.this,SearchActivity.class));
             return true;
         }
 

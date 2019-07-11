@@ -14,16 +14,16 @@
         android:layout_weight="8"
         android:orientation="vertical"
         >
+
         <CalendarView
             android:id="@+id/calendarview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:showWeekNumber="true"
+            android:layout_height="300dp"
             android:firstDayOfWeek="1"
             android:focusedMonthDateColor="@color/orangeRed"
             android:selectedWeekBackgroundColor="@color/orangeRed"
-            android:weekSeparatorLineColor="@color/orangeRed"
-            />
+            android:showWeekNumber="true"
+            android:weekSeparatorLineColor="@color/orangeRed" />
 
         <RelativeLayout
             android:layout_width="match_parent"
