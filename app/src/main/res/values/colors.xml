@@ -5,4 +5,8 @@
     <color name="colorAccent">#D81B60</color>
     <color name="black">#000000</color>//给content里的日历布局
     <color name="orangeRed">#f9fc807a</color>//给content里的日历布局
+    <color name="red">#fabebc</color>
+    <color name="green_blue">#c6e6e9</color>
+    <color name="gray">#969696</color>
+    <color name="lightBlack">#505f66</color>
 </resources>

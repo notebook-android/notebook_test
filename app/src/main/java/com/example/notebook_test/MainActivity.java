@@ -17,10 +17,10 @@ import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.notebook_test.Test.DBTestActivity;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.example.notebook_test.Test.DBTestActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.search_item) {
-           // startActivity(new Intent(MainActivity.this,SearchActivity.class));
+            startActivity(new Intent(MainActivity.this,SearchActivity.class));
             return true;
         }
 
