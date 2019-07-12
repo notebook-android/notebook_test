@@ -1,9 +1,14 @@
 package com.example.notebook_test.Fregment;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.LineBackgroundSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +19,17 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.notebook_test.R;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.CalendarMode;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,7 +49,7 @@ public class calender extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private CalendarView cv;
+    private MaterialCalendarView cv;
     private OnFragmentInteractionListener mListener;
 
     public calender() {
@@ -97,25 +111,22 @@ public class calender extends Fragment {
                 Toast.makeText(getActivity(), items.get(position), Toast.LENGTH_SHORT).show();
             }
         });
-        //日历的响应事件，这里先把时间提取出来
-        cv = (CalendarView)view.findViewById(R.id.calendarview);
-        cv.setOnDateChangeListener(new CalendarView.OnDateChangeListener(){
 
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year,
-                                            int month, int dayOfMonth) {
-                // TODO Auto-generated method stub
-                //使用Toast显示用户选择的日期
-                month+=1;
-                Toast.makeText(getActivity(),
-                        "你生日是"+year+"年"+month+"月"+dayOfMonth+"日"
-                        , Toast.LENGTH_SHORT).show();
+        //日历的响应事件
+        cv = view.findViewById(R.id.cd_calendarView);
 
-            }
-        });
+        //设置第一天是周几
+        cv.state().edit().setFirstDayOfWeek(Calendar.SUNDAY)
+                .setMinimumDate(CalendarDay.from(2015,7,17))
+                .setMaximumDate(CalendarDay.from(2025,7,17))
+                .setCalendarDisplayMode(CalendarMode.MONTHS)
+                .commit();
+        cv.addDecorators(new HighlightWeekendsDecorator(), new SameDayDecorator());
+
+
         return view;
     }
-
+//结束
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -153,5 +164,62 @@ public class calender extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+}
+
+
+//给周末日期设置特殊字体颜色：
+class HighlightWeekendsDecorator implements DayViewDecorator {
+
+    private final Calendar calendar = Calendar.getInstance();
+
+    @Override
+    public boolean shouldDecorate(CalendarDay day) {
+        day.copyTo(calendar);
+        int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
+        return weekDay == Calendar.SATURDAY || weekDay == Calendar.SUNDAY;
+    }
+
+    @Override
+    public void decorate(DayViewFacade view) {
+        view.addSpan(new ForegroundColorSpan(Color.parseColor("#fd755c")));
+    }
+}
+
+class SameDayDecorator implements DayViewDecorator {
+    @Override
+    public boolean shouldDecorate(CalendarDay day) {
+        Date date = new Date();
+        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+        String dateStr=sdf.format(date);
+        String str="2019-7-18";
+        //String dateStr = TimeUtils.Date2String(dateStr, "yyyy-MM-dd");
+
+        SimpleDateFormat sdf1= new SimpleDateFormat("yyyy-MM-dd");
+
+        Date parse= null;
+        try {
+            parse = sdf.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //Date parse = TimeUtils.string2Date(dateStr, "yyyy-MM-dd");
+        if (day.getDate().equals(parse)) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void decorate(DayViewFacade view) {
+        view.addSpan(new CircleBackGroundSpan());
+    }
+}
+class CircleBackGroundSpan implements LineBackgroundSpan {
+    @Override
+    public void drawBackground(Canvas c, Paint p, int left, int right, int top, int baseline, int bottom, CharSequence text, int start, int end, int lnum) {
+        Paint paint = new Paint();
+        paint.setColor(Color.parseColor("#87CEFA"));
+        c.drawCircle((right - left) / 2, (bottom - top) / 2 + 40, 8, paint);
     }
 }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fregment.calender">
 
     <!-- TODO: Update blank fragment layout -->
@@ -13,15 +14,13 @@
         android:orientation="vertical"
         >
 
-        <CalendarView
-            android:id="@+id/calendarview"
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:id="@+id/cd_calendarView"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:firstDayOfWeek="1"
-            android:focusedMonthDateColor="@color/colorPrimary"
-            android:selectedWeekBackgroundColor="@color/colorAccent"
-            android:showWeekNumber="true"
-            android:weekSeparatorLineColor="@color/colorPrimary" />
+            android:layout_height="400dp"
+            app:mcv_selectionColor="@color/colorPrimaryDark"
+            android:background="@android:color/white"
+            />
 
         <RelativeLayout
             android:layout_width="match_parent"
