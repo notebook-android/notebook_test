@@ -10,33 +10,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <com.prolificinteractive.materialcalendarview.MaterialCalendarView
             android:id="@+id/cd_calendarView"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            app:mcv_selectionColor="@color/colorPrimaryDark"
+            android:layout_height="390dp"
             android:background="@android:color/white"
-            />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-            <ListView
-                android:id="@+id/listView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            </ListView>
+            app:mcv_selectionColor="@color/colorPrimaryDark" />
 
 
-
-        </RelativeLayout>
 
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="335dp"
+        >
+        <ListView
+            android:id="@+id/listView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
 
+        </ListView>
+
+
+    </RelativeLayout>
 </FrameLayout>

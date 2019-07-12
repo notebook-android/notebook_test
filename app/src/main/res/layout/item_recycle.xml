@@ -2,7 +2,8 @@
 
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@color/colorPrimary">
 
 
     <LinearLayout
@@ -39,6 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="5dp"
-        android:src="@drawable/pic_right" />
+        android:src="@drawable/ic_search_white_48dp" />
 
 </LinearLayout>
