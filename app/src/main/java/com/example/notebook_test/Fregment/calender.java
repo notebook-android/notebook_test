@@ -190,9 +190,13 @@ class SameDayDecorator implements DayViewDecorator {
     @Override
     public boolean shouldDecorate(CalendarDay day) {
         Date date = new Date();
+        String str3[] = new String[2];
         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
         String dateStr=sdf.format(date);
         String str="2019-7-18";
+        String str1="2019-7-18";
+//        str3[1] = str;
+//        str3[2] = str1;
         //String dateStr = TimeUtils.Date2String(dateStr, "yyyy-MM-dd");
 
         SimpleDateFormat sdf1= new SimpleDateFormat("yyyy-MM-dd");
@@ -215,11 +219,12 @@ class SameDayDecorator implements DayViewDecorator {
         view.addSpan(new CircleBackGroundSpan());
     }
 }
+
 class CircleBackGroundSpan implements LineBackgroundSpan {
     @Override
     public void drawBackground(Canvas c, Paint p, int left, int right, int top, int baseline, int bottom, CharSequence text, int start, int end, int lnum) {
         Paint paint = new Paint();
         paint.setColor(Color.parseColor("#87CEFA"));
-        c.drawCircle((right - left) / 2, (bottom - top) / 2 + 40, 8, paint);
+        c.drawCircle((right - left) / 2, (bottom - top) / 2 , 40, paint);
     }
 }
