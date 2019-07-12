@@ -29,6 +29,9 @@ import com.example.notebook_test.Test.DBTestActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.notebook_test.Activity.AddScheduleActivity;
+import com.example.notebook_test.Test.DBTestActivity;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, add.OnFragmentInteractionListener,today.OnFragmentInteractionListener,calender.OnFragmentInteractionListener {
 
@@ -100,7 +103,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, DBTestActivity.class));
             return true;
         } else if (id == R.id.nav_slideshow) {
-
+            startActivity(new Intent(MainActivity.this, AddScheduleActivity.class));
+            return true;
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(MainActivity.this,SettingsActivity.class));
             return true;

@@ -5,6 +5,20 @@
     <color name="colorAccent">#D81B60</color>
     <color name="black">#000000</color>//给content里的日历布局
     <color name="orangeRed">#f9fc807a</color>//给content里的日历布局
+
+    <!--时间选择组件专用颜色池-->
+    <color name="date_picker_bg">#FFFFFF</color>
+    <color name="date_picker_divider">#11112233</color>
+    <color name="date_picker_text_light">#59B29C</color>
+    <color name="date_picker_text_dark">#333333</color>
+
+    <color name="main_bg">#F0F0F0</color>
+    <color name="select_title_text">#B0B0B0</color>
+    <color name="current_time_bg">#FFFFFF</color>
+    <color name="current_time_text">#666666</color>
+    <color name="selected_time_text">#57C5E8</color>
+    <!--时间选择组件专用颜色池-->
+
     <color name="red">#fabebc</color>
     <color name="green_blue">#c6e6e9</color>
     <color name="gray">#969696</color>
