@@ -17,6 +17,7 @@ import com.example.notebook_test.datepicker.CustomDatePicker;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class AddScheduleActivity extends AppCompatActivity implements View.OnClickListener {
@@ -61,30 +62,33 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
                 // 日期格式为yyyy-MM-dd HH:mm
                 mStartTimerPicker.show(mTvSelectedStartTime.getText().toString());
 
-                //String2Date
-                Date testDate = null;
-                String ss = mTvSelectedStartTime.getText().toString();
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                try {
-                    testDate=dateFormat.parse(ss);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                Log.d(TAG, "onClick: "+testDate);
+//                //String2Date
+//                Date testDate = null;
+//                String ss = mTvSelectedStartTime.getText().toString();
+//                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//                try {
+//                    testDate = dateFormat.parse(ss);
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//                Log.d(TAG, "onClick: " + testDate);
 
 //                Log.d(TAG, "onClick:" + mTvSelectedStartTime.getText().toString());
                 break;
+
             case R.id.schedule_finishTime:
                 // 日期格式为yyyy-MM-dd HH:mm
                 mFinishTimerPicker.show(mTvSelectedFinishTime.getText().toString());
                 break;
+
             case R.id.schedule_repetition:
-                Intent intent=new Intent(AddScheduleActivity.this,ScheduleRepetitionChoose.class);
-                startActivityForResult(intent,1);
+                Intent intent = new Intent(AddScheduleActivity.this, ScheduleRepetitionChoose.class);
+                startActivityForResult(intent, 1);
                 break;
+
             case R.id.schedule_type:
-                Intent intent1=new Intent(AddScheduleActivity.this,ScheduleTypeChoose.class);
-                startActivityForResult(intent1,2);
+                Intent intent1 = new Intent(AddScheduleActivity.this, ScheduleTypeChoose.class);
+                startActivityForResult(intent1, 2);
                 break;
         }
     }
@@ -107,6 +111,20 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onTimeSelected(long timestamp) {
                 mTvSelectedStartTime.setText(DateFormatUtils.long2Str(timestamp, true));
+
+                if (!mTvSelectedStartTime.getText().toString().equals("")) {
+                    String startTimeStr = mTvSelectedStartTime.getText().toString();
+
+                    Calendar calendar = Calendar.getInstance();
+                    long startTime = DateFormatUtils.str2Long(startTimeStr, true);
+                    calendar.setTimeInMillis(startTime);
+                    mFinishTimerPicker.setmBeginTime(calendar);     //更改终止时间的选择范围
+                    long endTime = DateFormatUtils.str2Long(mTvSelectedFinishTime.getText().toString(), true);
+
+                    if (endTime < startTime)       //如果当前结束时间窗口时间小于其上限则修改为上限
+                        mTvSelectedFinishTime.setText(startTimeStr);
+                }
+
             }
         }, beginTime, endTime);
         // 允许点击屏幕或物理返回键关闭
@@ -121,7 +139,7 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
 
     private void initFinishTimerPicker() {
         String beginTime = "2010-1-1 00:00";    //时间范围
-        String endTime = "2030-1-1 00:00";
+        final String endTime = "2030-1-1 00:00";
 //        String endTime = DateFormatUtils.long2Str(System.currentTimeMillis(), true);
 
         //初始化的时间
@@ -132,6 +150,19 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onTimeSelected(long timestamp) {
                 mTvSelectedFinishTime.setText(DateFormatUtils.long2Str(timestamp, true));
+
+                if(!mTvSelectedFinishTime.getText().toString().equals("")){
+                    String endTimeStr = mTvSelectedFinishTime.getText().toString();
+
+                    Calendar calendar = Calendar.getInstance();
+                    long finishTime = DateFormatUtils.str2Long(endTimeStr, true);
+                    calendar.setTimeInMillis(finishTime);
+                    mStartTimerPicker.setmEndTime(calendar);     //更改终止时间的选择范围
+                    long startTime = DateFormatUtils.str2Long(mTvSelectedStartTime.getText().toString(), true);
+
+                    if (startTime > finishTime)       //如果当前结束时间窗口时间小于其上限则修改为上限
+                        mTvSelectedStartTime.setText(endTimeStr);
+                }
             }
         }, beginTime, endTime);
         // 允许点击屏幕或物理返回键关闭
@@ -145,23 +176,23 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    protected void onActivityResult(int requestCode,int resultCode,Intent data){
-        switch (requestCode){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
             case 1:
-                if(resultCode==RESULT_OK){
-                    String repetition=data.getStringExtra("repetition");
-                    TextView textView=(TextView)findViewById(R.id.schedule_repetiton_textview);
+                if (resultCode == RESULT_OK) {
+                    String repetition = data.getStringExtra("repetition");
+                    TextView textView = (TextView) findViewById(R.id.schedule_repetiton_textview);
                     textView.setText(repetition);       //设置返回的值
                 }
                 break;
 
             case 2:
-                if(resultCode==RESULT_OK){
-                    String type=data.getStringExtra("type");
-                    int typeImage=data.getExtras().getInt("typeImage");
-                    TextView textView1=(TextView)findViewById(R.id.schedule_type_textview);
+                if (resultCode == RESULT_OK) {
+                    String type = data.getStringExtra("type");
+                    int typeImage = data.getExtras().getInt("typeImage");
+                    TextView textView1 = (TextView) findViewById(R.id.schedule_type_textview);
                     textView1.setText(type);
-                    ImageView imageView=(ImageView)findViewById(R.id.schedule_type_imageview);
+                    ImageView imageView = (ImageView) findViewById(R.id.schedule_type_imageview);
                     imageView.setImageResource(typeImage);
                 }
                 break;

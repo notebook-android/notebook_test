@@ -109,6 +109,16 @@ public class CustomDatePicker implements View.OnClickListener, PickerView.OnSele
         mCanDialogShow = true;
     }
 
+    public void setmBeginTime(Calendar mBeginTime) {        //测试
+        this.mBeginTime = mBeginTime;
+        initData();
+    }
+
+    public void setmEndTime(Calendar mEndTime){             //测试
+        this.mEndTime=mEndTime;
+        initData();
+    }
+
     private void initView() {
         mPickerDialog = new Dialog(mContext, R.style.date_picker_dialog);
         mPickerDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -597,7 +607,7 @@ public class CustomDatePicker implements View.OnClickListener, PickerView.OnSele
     public void setScrollLoop(boolean canLoop) {
         if (!canShow()) return;
 
-        mDpvYear.setCanScrollLoop(canLoop);
+        mDpvYear.setCanScrollLoop(false);
         mDpvMonth.setCanScrollLoop(canLoop);
         mDpvDay.setCanScrollLoop(canLoop);
         mDpvHour.setCanScrollLoop(canLoop);
