@@ -6,13 +6,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.notebook_test.Model.Schedule;
 import com.example.notebook_test.R;
 import com.example.notebook_test.datepicker.CustomDatePicker;
 import com.example.notebook_test.datepicker.DateFormatUtils;
 import com.example.notebook_test.datepicker.CustomDatePicker;
+
+import org.litepal.LitePal;
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -29,10 +36,10 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
 
     private String title;
     private String content;
-    private String createTime;
+    private Date createTime;
     private Date startTime;
     private Date finishTime;
-    private boolean allDay;
+    private boolean allDay = false;
     private int repetition;
     private int type;
 
@@ -40,6 +47,8 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_schedule);
+
+        LitePal.getDatabase();      //初始化数据库
 
         findViewById(R.id.schedule_startTime).setOnClickListener(this);
         mTvSelectedStartTime = findViewById(R.id.schedule_startTime_TextView);
@@ -52,7 +61,18 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
         findViewById(R.id.schedule_repetition).setOnClickListener(this);
         findViewById(R.id.schedule_type).setOnClickListener(this);
 
-        add = (Button) findViewById(R.id.schedule_submit_button);  //获取提交的按钮
+        findViewById(R.id.schedule_submit_button).setOnClickListener(this);     //获取提交的按钮
+
+        Switch s = (Switch) findViewById(R.id.schedule_allDay_switch);      //全天按钮状态的改变
+        s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    allDay = true;
+                } else
+                    allDay = false;
+            }
+        });
     }
 
     @Override
@@ -90,6 +110,61 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
                 Intent intent1 = new Intent(AddScheduleActivity.this, ScheduleTypeChoose.class);
                 startActivityForResult(intent1, 2);
                 break;
+
+            case R.id.schedule_submit_button:
+
+                title = ((TextView) findViewById(R.id.schedule_title_EditView)).getText().toString();
+                content = ((TextView) findViewById(R.id.schedule_content_editview)).getText().toString();
+                createTime = new Date();
+                startTime = new Date(DateFormatUtils.str2Long(mTvSelectedStartTime.getText().toString(), true));
+                finishTime = new Date(DateFormatUtils.str2Long(mTvSelectedFinishTime.getText().toString(), true));
+                repetition = getRepetitionState();
+                type = getTypeState();
+                Schedule schedule=new Schedule(title,content,createTime,startTime,finishTime,allDay,repetition,type,false);
+                schedule.save();
+
+                Toast toast=Toast.makeText(AddScheduleActivity.this,"添加成功",Toast.LENGTH_SHORT);
+                toast.show();
+
+                ((TextView) findViewById(R.id.schedule_title_EditView)).setText("");
+                ((TextView) findViewById(R.id.schedule_content_editview)).setText("");
+
+        }
+    }
+
+    private int getRepetitionState() {
+        TextView textView = (TextView) findViewById(R.id.schedule_repetiton_textview);
+        String s = textView.getText().toString();
+        if (s.equals("永不")) {
+            return 0;
+        } else if (s.equals("每天")) {
+            return 1;
+        } else if (s.equals("每周")) {
+            return 2;
+        } else if (s.equals("每两周")) {
+            return 3;
+        } else if (s.equals("每月")) {
+            return 4;
+        } else if (s.equals("每年")) {
+            return 5;
+        } else {
+            return 0;
+        }
+    }
+
+    private int getTypeState() {
+        TextView textView = (TextView) findViewById(R.id.schedule_type_textview);
+        String s = textView.getText().toString();
+        if (s.equals("工作")) {
+            return 0;
+        } else if (s.equals("生活")) {
+            return 1;
+        } else if (s.equals("运动")) {
+            return 2;
+        } else if (s.equals("出行")) {
+            return 3;
+        } else {
+            return 0;
         }
     }
 
@@ -151,7 +226,7 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
             public void onTimeSelected(long timestamp) {
                 mTvSelectedFinishTime.setText(DateFormatUtils.long2Str(timestamp, true));
 
-                if(!mTvSelectedFinishTime.getText().toString().equals("")){
+                if (!mTvSelectedFinishTime.getText().toString().equals("")) {
                     String endTimeStr = mTvSelectedFinishTime.getText().toString();
 
                     Calendar calendar = Calendar.getInstance();

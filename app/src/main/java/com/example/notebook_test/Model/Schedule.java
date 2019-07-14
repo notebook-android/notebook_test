@@ -26,7 +26,7 @@ public class Schedule extends LitePalSupport {
 
     private boolean delete;      //是否删除 false:未删除 true:已删除
 
-    public Schedule(String title, String content, Date createTime, Date startTime, Date finishTime, boolean allDay, int repetition, int type) {
+    public Schedule(String title, String content, Date createTime, Date startTime, Date finishTime, boolean allDay, int repetition, int type, boolean delete) {
         this.title = title;
         this.content = content;
         this.createTime = createTime;
@@ -35,9 +35,11 @@ public class Schedule extends LitePalSupport {
         this.allDay = allDay;
         this.repetition = repetition;
         this.type = type;
+        this.delete = delete;
     }
 
-    public Schedule(){}
+    public Schedule() {
+    }
 
     public int getId() {
         return id;
