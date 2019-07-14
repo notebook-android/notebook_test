@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.LineBackgroundSpan;
@@ -18,12 +19,17 @@ import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.notebook_test.Model.Schedule;
 import com.example.notebook_test.R;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+
+import org.litepal.LitePal;
+import org.litepal.crud.LitePalSupport;
+import org.litepal.exceptions.DataSupportException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -93,22 +99,25 @@ public class calender extends Fragment {
 //        if (args != null) {
 //            context = args.getString("context");
 //        }
+
         //listview的事件
 
-        final List<String> items = new ArrayList<String>(); //设置要显示的数据，这里因为是例子，所以固定写死
-        items.add("item1");
-        items.add("item2");
-        items.add("item3");
-        items.add("item4");
-        items.add("item5");
-        items.add("item6");
-        ListView listView =  (ListView)view.findViewById(R.id.listView1); // 从布局中获取listview，也可以动态创建
+        final List<String> items = new ArrayList<String>(); //保存数据库读出的内容
+
+        //数据库查询
+        final List<Schedule> item = LitePal.select("title").find(Schedule.class);
+
+        //把数据库读出的内容给items，便于输出
+        for (Schedule s : item) {
+            items.add(s.getTitle());
+        }
+        ListView listView = view.findViewById(R.id.listView1); // 从布局中获取listview，也可以动态创建
         listView.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_expandable_list_item_1, items));//关联Adapter//将ListView加到适配器里
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //设置点击ListView中的条目的响应对象
             @Override
             public void onItemClick(AdapterView<?> parent, View view, //响应方法，其中view是一个TextView对象，position是选择条目的序号
                                     int position, long id) {
-                Toast.makeText(getActivity(), items.get(position), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),  items.get(position), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -127,6 +136,8 @@ public class calender extends Fragment {
         return view;
     }
 //结束
+
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -190,14 +201,11 @@ class SameDayDecorator implements DayViewDecorator {
     @Override
     public boolean shouldDecorate(CalendarDay day) {
         Date date = new Date();
-        String str3[] = new String[2];
+
         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
         String dateStr=sdf.format(date);
         String str="2019-7-18";
         String str1="2019-7-18";
-//        str3[1] = str;
-//        str3[2] = str1;
-        //String dateStr = TimeUtils.Date2String(dateStr, "yyyy-MM-dd");
 
         SimpleDateFormat sdf1= new SimpleDateFormat("yyyy-MM-dd");
 
@@ -207,7 +215,7 @@ class SameDayDecorator implements DayViewDecorator {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        //Date parse = TimeUtils.string2Date(dateStr, "yyyy-MM-dd");
+
         if (day.getDate().equals(parse)) {
             return true;
         }
@@ -225,6 +233,6 @@ class CircleBackGroundSpan implements LineBackgroundSpan {
     public void drawBackground(Canvas c, Paint p, int left, int right, int top, int baseline, int bottom, CharSequence text, int start, int end, int lnum) {
         Paint paint = new Paint();
         paint.setColor(Color.parseColor("#87CEFA"));
-        c.drawCircle((right - left) / 2, (bottom - top) / 2 , 40, paint);
+        c.drawCircle((right - left) / 2, (bottom - top) / 2 , 30, paint);
     }
 }
