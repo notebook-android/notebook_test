@@ -3,23 +3,31 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/bg_main"
-    android:gravity="center"
+
     android:orientation="vertical"
     android:padding="10dp" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp" >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/app_welcome_words"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="30dp"/>
 
         <EditText
             android:id="@+id/email"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:background="@color/white"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
@@ -32,7 +40,7 @@
             android:id="@+id/password"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="50dp"
             android:background="@color/white"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
@@ -50,7 +58,7 @@
             android:layout_marginTop="20dip"
             android:background="@color/btn_login_bg"
             android:text="@string/btn_login"
-            android:textColor="@color/btn_login" />
+            android:textColor="@color/black" />
 
         <!-- Link to Login Screen -->
 
@@ -58,9 +66,19 @@
             android:id="@+id/btnLinkToRegisterScreen"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:background="@color/btn_login_bg"
+            android:text="@string/btn_link_to_register"
+            android:textAllCaps="false"
+            android:textColor="@color/bg_register"
+            android:textSize="15dp" />
+        <Button
+            android:id="@+id/btnLinkToFindBack"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="40dip"
             android:background="@null"
-            android:text="@string/btn_link_to_register"
+            android:text="@string/btn_link_to_findback"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="15dp" />
