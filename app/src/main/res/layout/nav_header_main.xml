@@ -21,15 +21,15 @@
         app:srcCompat="@drawable/ic_sentiment_very_satisfied_deep_orange_400_48dp" />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_title"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/mail"
+        android:id="@+id/usermail"
         android:text="@string/app_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

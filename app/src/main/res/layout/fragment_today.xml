@@ -12,29 +12,29 @@
         android:layout_weight="0"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/tab_title"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@color/white">
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/tab_title"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:background="@color/white">-->
 
-            <TextView
-                android:id="@+id/txt_top"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="0dp"
-                android:gravity="center"
-                android:text="@string/title_today"
-                android:textColor="@color/title_today"
-                android:textSize="24sp" />
+            <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/txt_top"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_alignParentBottom="true"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginBottom="0dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:gravity="left"&ndash;&gt;-->
+                <!--&lt;!&ndash;&ndash;&gt;-->
+                <!--&lt;!&ndash;android:textColor="@color/title_today"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:textSize="24sp" />&ndash;&gt;-->
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:layout_alignParentBottom="true"
-                android:background="@color/title_today" />
-        </RelativeLayout>
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="2px"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:background="@color/title_today" />-->
+        <!--</RelativeLayout>-->
 
         <RelativeLayout
             android:layout_width="match_parent"

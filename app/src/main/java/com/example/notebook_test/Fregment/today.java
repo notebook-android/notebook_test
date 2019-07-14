@@ -89,13 +89,21 @@ public class today extends Fragment{
         items.add("item6");
         ListView listView =  (ListView)view.findViewById(R.id.listView1); // 从布局中获取listview，也可以动态创建
         listView.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_expandable_list_item_1, items));//关联Adapter//将ListView加到适配器里
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //设置点击ListView中的条目的响应对象
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //设置点击ListView中的条目的响应对象
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, //响应方法，其中view是一个TextView对象，position是选择条目的序号
+//                                    int position, long id) {
+//                Toast.makeText(getActivity(), items.get(position), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, //响应方法，其中view是一个TextView对象，position是选择条目的序号
-                                    int position, long id) {
-                Toast.makeText(getActivity(), items.get(position), Toast.LENGTH_SHORT).show();
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getActivity(), items.get(i), Toast.LENGTH_SHORT).show();
+                return false;
             }
         });
+
         return view;
     }
 

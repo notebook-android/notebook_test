@@ -34,7 +34,8 @@
             android:title="@string/btn_logout" />
     </group>
 
-    <item android:title="交流">
+    <item android:title="交流"
+        android:id="@+id/ttt">
         <menu>
             <item
                 android:id="@+id/nav_share"

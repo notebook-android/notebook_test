@@ -122,6 +122,7 @@ public class LoginActivity extends Activity {
                         .post(requestBody)
                         .build();
                 try {
+
                     Response response = client.newCall(request).execute();
                     String rd = response.body().string();
                     Log.d(TAG, "get response : " + rd);
@@ -166,7 +167,8 @@ public class LoginActivity extends Activity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(LoginActivity.this, "错误", Toast.LENGTH_SHORT).show();
+                            hideDialog();
+                            Toast.makeText(LoginActivity.this, "错误", Toast.LENGTH_LONG).show();
                         }
                     });
                 } catch (JSONException e) {

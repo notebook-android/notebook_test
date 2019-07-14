@@ -22,6 +22,7 @@ import com.example.notebook_test.R;
 import com.example.notebook_test.Activity.LoginActivity;
 import com.example.notebook_test.Activity.SessionManager;
 import com.example.notebook_test.Fregment.*;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -45,7 +46,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, add.OnFragmentInteractionListener,today.OnFragmentInteractionListener,calender.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, add.OnFragmentInteractionListener, today.OnFragmentInteractionListener, calender.OnFragmentInteractionListener {
 
     private CalendarView cv;//定义日历控件按钮
     private calender f1;
@@ -53,12 +54,15 @@ public class MainActivity extends AppCompatActivity
     private add f3;
     private android.support.v4.app.FragmentManager fragmentManager;
     private SessionManager session;
+    private TextView txtName;
+    private TextView txtEmail;
+    private String name;
+    private String email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);//侧边栏布局 drawer
@@ -81,17 +85,21 @@ public class MainActivity extends AppCompatActivity
         if (strJson != null) {
             try {
                 JSONObject response = new JSONObject(strJson);
-                String name = response.getString("name");
-                String email = response.getString("email");
+                name = response.getString("name");
+                email = response.getString("email");
                 // Displaying the user details on the screen
-                TextView username=(TextView)findViewById(R.id.name);
-                TextView useremail=(TextView)findViewById(R.id.mail);
-//                useremail.setText(email);
-//                username.setText(name);
+                // 侧边栏的头部栏
+                //NavigationView是一个RecyclerView（在23.1.0版本之前是ListView），header布局通常是0号元素。
+                //在Support Library v23.1.1版本中，可以使用如下方法很方便地获取到header中的view：
+                View headerLayout = navigationView.getHeaderView(0);
+                txtName = headerLayout.findViewById(R.id.username);
+                txtEmail = headerLayout.findViewById(R.id.usermail);
+                txtName.setText(name);
+                txtEmail.setText(email);
             } catch (JSONException e) {
             }
         }
-
+        //设置分段
         bindView();
     }
 
@@ -121,7 +129,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.search_item) {
-            startActivity(new Intent(MainActivity.this,SearchActivity.class));
+            startActivity(new Intent(MainActivity.this, SearchActivity.class));
             return true;
         }
 
@@ -143,13 +151,13 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, AddScheduleActivity.class));
             return true;
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(MainActivity.this,SettingsActivity.class));
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             return true;
         } else if (id == R.id.nav_help) {
 
         } else if (id == R.id.nav_logout) {
             logoutUser();
-        }else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
@@ -168,26 +176,30 @@ public class MainActivity extends AppCompatActivity
             fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             hideAllFragment(transaction);
+            TextView title=findViewById(R.id.toolbar_title);
             switch (item.getItemId()) {
                 case R.id.navigation_calender:
+                    title.setText("随想日历");
                     if (f1 == null) {
-                        f1 = calender.newInstance("hello","world");
+                        f1 = calender.newInstance("hello", "world");
                         transaction.add(R.id.fragment_container, f1);
                     } else {
                         transaction.show(f1);
                     }
                     break;
                 case R.id.navigation_today:
+                    title.setText("今日随想");
                     if (f2 == null) {
-                        f2 = today.newInstance("hello","world");
+                        f2 = today.newInstance("hello", "world");
                         transaction.add(R.id.fragment_container, f2);
                     } else {
                         transaction.show(f2);
                     }
                     break;
                 case R.id.navigation_add:
+                    title.setText("加入随想");
                     if (f3 == null) {
-                        f3 = add.newInstance("hello","world");
+                        f3 = add.newInstance("hello", "world");
                         transaction.add(R.id.fragment_container, f3);
                     } else {
                         transaction.show(f3);
@@ -205,14 +217,15 @@ public class MainActivity extends AppCompatActivity
         //设置开屏默认页面 为today视图
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        f2 = today.newInstance("hello","world");
+        TextView title=findViewById(R.id.toolbar_title);
+        title.setText("今日随想");
+        f2 = today.newInstance("hello", "world");
         transaction.add(R.id.fragment_container, f2);
         transaction.commit();
         //设置底部菜单栏为today选中，等待
         navView.setSelectedItemId(navView.getMenu().getItem(1).getItemId());
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
-
 
 
     //隐藏所有Fragment
