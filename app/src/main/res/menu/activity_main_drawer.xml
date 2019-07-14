@@ -30,7 +30,7 @@
             android:title="@string/menu_help" />
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_help_outline_black_48dp"
+            android:icon="@drawable/ic_keyboard_return_black_48dp"
             android:title="@string/btn_logout" />
     </group>
 
