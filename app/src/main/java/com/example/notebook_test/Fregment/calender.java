@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.LineBackgroundSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +19,15 @@ import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.notebook_test.Model.Schedule;
 import com.example.notebook_test.R;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+
+import org.litepal.LitePal;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -94,14 +98,14 @@ public class calender extends Fragment {
 //            context = args.getString("context");
 //        }
         //listview的事件
+        List<Schedule> list= LitePal.findAll(Schedule.class);
 
         final List<String> items = new ArrayList<String>(); //设置要显示的数据，这里因为是例子，所以固定写死
-        items.add("item1");
-        items.add("item2");
-        items.add("item3");
-        items.add("item4");
-        items.add("item5");
-        items.add("item6");
+
+        for(Schedule schedule:list){
+            items.add(schedule.getTitle());
+        }
+
         ListView listView =  (ListView)view.findViewById(R.id.listView1); // 从布局中获取listview，也可以动态创建
         listView.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_expandable_list_item_1, items));//关联Adapter//将ListView加到适配器里
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //设置点击ListView中的条目的响应对象
