@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">notebook_test</string>
+    <string name="app_name">随想</string>
     <string name="app_title">随想</string>
     <string name="app_title_blank">1</string>
     <string name="app_welcome">欢迎回来！</string>
@@ -103,8 +103,8 @@
     <string name="btn_find_back">找回</string>
     <string name="btn_link_to_register">注册</string>
     <string name="btn_link_to_findback">忘记密码？立即找回</string>
-    <string name="btn_link_to_login">Already registred! Login Me.</string>
-    <string name="btn_back_to_login">back_to_login</string>
+    <string name="btn_link_to_login">已经注册？点我登录</string>
+    <string name="btn_back_to_login">返回登录</string>
     <string name="btn_logout">退出登录</string>
     <string name="name">Fullname</string>
 </resources>
