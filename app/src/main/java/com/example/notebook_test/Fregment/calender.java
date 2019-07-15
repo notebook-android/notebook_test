@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.notebook_test.Model.MyCalendarBean;
 import com.example.notebook_test.Model.Schedule;
 import com.example.notebook_test.R;
+import com.example.notebook_test.datepicker.DateFormatUtils;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
@@ -110,15 +111,16 @@ public class calender extends Fragment {
         List<Schedule> item = LitePal.select("startTime").find(Schedule.class);
 
         for(Schedule schedule:item){
-            Log.d("asda**************", "onCreateView: "+schedule.getStartTime().toString());
+            //此处数据库修改后 修正报错
+            Log.d("asda**************", "onCreateView: "+ DateFormatUtils.long2Str(schedule.getStartTime(),true));
 
             SimpleDateFormat sf1 = new SimpleDateFormat("EEE MMM dd hh:mm:ss z yyyy", Locale.ENGLISH);
             Date date = null;
-            try {
-                date = sf1.parse(schedule.getStartTime().toString());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+
+            //此处修改
+            //date = sf1.parse(schedule.getStartTime().toString());
+            date = new Date(schedule.getStartTime());
+
             SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd");
             Log.d("1111:",sf2.format(date));
             items.add(sf2.format(date));
