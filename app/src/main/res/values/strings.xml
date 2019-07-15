@@ -93,14 +93,18 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="hint_email">Email</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_name">Fullname</string>
+    <string name="hint_email">邮箱</string>
+    <string name="hint_password">密码</string>
+    <string name="hint_new_password">新密码</string>
+    <string name="hint_name">名称</string>
+    <string name="hint_code">邮箱验证码</string>
     <string name="btn_login">登录</string>
     <string name="btn_register">注册</string>
+    <string name="btn_find_back">找回</string>
     <string name="btn_link_to_register">注册</string>
     <string name="btn_link_to_findback">忘记密码？立即找回</string>
     <string name="btn_link_to_login">Already registred! Login Me.</string>
+    <string name="btn_back_to_login">back_to_login</string>
     <string name="btn_logout">退出登录</string>
     <string name="name">Fullname</string>
 </resources>

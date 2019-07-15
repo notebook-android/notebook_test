@@ -97,6 +97,17 @@ public class LoginActivity extends Activity {
                 finish();
             }
         });
+        //link to findback password
+        Button btn_find_back=findViewById(R.id.btnLinkToFindBack);
+        btn_find_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),
+                        findpasswordback.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
     }
 
@@ -139,7 +150,7 @@ public class LoginActivity extends Activity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(LoginActivity.this, "账户不存在", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "账户或密码错误", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {
