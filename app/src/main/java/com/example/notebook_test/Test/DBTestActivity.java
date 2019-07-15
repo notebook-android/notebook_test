@@ -20,7 +20,7 @@ public class DBTestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dbtest);
 
         //创建数据库
-        Button createDatabase=(Button)findViewById(R.id.create_database);
+        Button createDatabase = (Button) findViewById(R.id.create_database);
         createDatabase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -28,11 +28,12 @@ public class DBTestActivity extends AppCompatActivity {
             }
         });
 
-        Button createData=(Button)findViewById(R.id.create_data);
+        Button createData = (Button) findViewById(R.id.create_data);
         createData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Schedule schedule=new Schedule("titletext","contenttext" , new Date(),new Date(),new Date(),false,0,0,false);
+                long l = System.currentTimeMillis();
+                Schedule schedule = new Schedule("标题测试", "内容测试", l, l, l, false, 0, 0, false);
                 schedule.save();
 
             }

@@ -12,11 +12,11 @@ public class Schedule extends LitePalSupport {
 
     private String content; //内容
 
-    private Date createTime;    //创建时间
+    private long createTime;    //创建时间
 
-    private Date startTime;     //开始时间
+    private long startTime;     //开始时间
 
-    private Date finishTime;    //完成时间
+    private long finishTime;    //完成时间
 
     private boolean allDay;     //是否全天
 
@@ -26,19 +26,44 @@ public class Schedule extends LitePalSupport {
 
     private boolean delete;      //是否删除 false:未删除 true:已删除
 
-    public Schedule(String title, String content, Date createTime, Date startTime, Date finishTime, boolean allDay, int repetition, int type, boolean delete) {
-        this.title = title;
-        this.content = content;
-        this.createTime = createTime;
-        this.startTime = startTime;
-        this.finishTime = finishTime;
-        this.allDay = allDay;
-        this.repetition = repetition;
-        this.type = type;
-        this.delete = delete;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Schedule() {
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setFinishTime(long finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
+    }
+
+    public void setRepetition(int repetition) {
+        this.repetition = repetition;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
 
     public int getId() {
@@ -53,15 +78,15 @@ public class Schedule extends LitePalSupport {
         return content;
     }
 
-    public Date getCreateTime() {
+    public long getCreateTime() {
         return createTime;
     }
 
-    public Date getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public Date getFinishTime() {
+    public long getFinishTime() {
         return finishTime;
     }
 
@@ -81,43 +106,15 @@ public class Schedule extends LitePalSupport {
         return delete;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setTitle(String title) {
+    public Schedule(String title, String content, long createTime, long startTime, long finishTime, boolean allDay, int repetition, int type, boolean delete) {
         this.title = title;
-    }
-
-    public void setContent(String content) {
         this.content = content;
-    }
-
-    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public void setStartTime(Date startTime) {
         this.startTime = startTime;
-    }
-
-    public void setFinishTime(Date finishTime) {
         this.finishTime = finishTime;
-    }
-
-    public void setAllDay(boolean allDay) {
         this.allDay = allDay;
-    }
-
-    public void setRepetition(int repetition) {
         this.repetition = repetition;
-    }
-
-    public void setType(int type) {
         this.type = type;
-    }
-
-    public void setDelete(boolean delete) {
         this.delete = delete;
     }
 }

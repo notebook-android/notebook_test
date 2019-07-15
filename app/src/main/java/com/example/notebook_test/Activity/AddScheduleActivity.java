@@ -26,6 +26,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class AddScheduleActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -36,9 +37,9 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
 
     private String title;
     private String content;
-    private Date createTime;
-    private Date startTime;
-    private Date finishTime;
+    private long createTime;
+    private long startTime;
+    private long finishTime;
     private boolean allDay = false;
     private int repetition;
     private int type;
@@ -115,15 +116,15 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
 
                 title = ((TextView) findViewById(R.id.schedule_title_EditView)).getText().toString();
                 content = ((TextView) findViewById(R.id.schedule_content_editview)).getText().toString();
-                createTime = new Date();
-                startTime = new Date(DateFormatUtils.str2Long(mTvSelectedStartTime.getText().toString(), true));
-                finishTime = new Date(DateFormatUtils.str2Long(mTvSelectedFinishTime.getText().toString(), true));
+                createTime = System.currentTimeMillis();
+                startTime = DateFormatUtils.str2Long(mTvSelectedStartTime.getText().toString(), true);
+                finishTime = DateFormatUtils.str2Long(mTvSelectedFinishTime.getText().toString(), true);
                 repetition = getRepetitionState();
                 type = getTypeState();
-                Schedule schedule=new Schedule(title,content,createTime,startTime,finishTime,allDay,repetition,type,false);
+                Schedule schedule = new Schedule(title, content, createTime, startTime, finishTime, allDay, repetition, type, false);
                 schedule.save();
 
-                Toast toast=Toast.makeText(AddScheduleActivity.this,"添加成功",Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(AddScheduleActivity.this, "添加成功", Toast.LENGTH_SHORT);
                 toast.show();
 
                 ((TextView) findViewById(R.id.schedule_title_EditView)).setText("");
