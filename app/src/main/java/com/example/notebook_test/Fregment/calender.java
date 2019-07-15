@@ -6,9 +6,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.LineBackgroundSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.notebook_test.Model.MyCalendarBean;
 import com.example.notebook_test.Model.Schedule;
 import com.example.notebook_test.R;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -25,6 +28,7 @@ import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import org.litepal.LitePal;
 
@@ -34,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -100,14 +105,27 @@ public class calender extends Fragment {
 
         //listview的事件
 
-        final List<Date> items = new ArrayList<Date>(); //用来存储数据库的数据
+        final List<String> items = new ArrayList<String>(); //用来存储数据库的数据
+
         List<Schedule> item = LitePal.select("startTime").find(Schedule.class);
+
         for(Schedule schedule:item){
-            items.add(schedule.getStartTime());
+            Log.d("asda**************", "onCreateView: "+schedule.getStartTime().toString());
+
+            SimpleDateFormat sf1 = new SimpleDateFormat("EEE MMM dd hh:mm:ss z yyyy", Locale.ENGLISH);
+            Date date = null;
+            try {
+                date = sf1.parse(schedule.getStartTime().toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd");
+            Log.d("1111:",sf2.format(date));
+            items.add(sf2.format(date));
         }
 
         ListView listView =  view.findViewById(R.id.listView1); // 从布局中获取listview，也可以动态创建
-        listView.setAdapter(new ArrayAdapter<Date>(getActivity(),android.R.layout.simple_expandable_list_item_1, items));//关联Adapter//将ListView加到适配器里
+        listView.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_expandable_list_item_1, items));//关联Adapter//将ListView加到适配器里
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //设置点击ListView中的条目的响应对象
             @Override
             public void onItemClick(AdapterView<?> parent, View view, //响应方法，其中view是一个TextView对象，position是选择条目的序号
@@ -136,6 +154,13 @@ public class calender extends Fragment {
 
         //给事件添加标记
         cv.addDecorators(new HighlightWeekendsDecorator(), new SameDayDecorator());
+
+        cv.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                Log.d("asd",date.toString());
+            }
+        });
 
 
         return view;
@@ -199,25 +224,21 @@ class HighlightWeekendsDecorator implements DayViewDecorator {
         view.addSpan(new ForegroundColorSpan(Color.parseColor("#fd755c")));
     }
 }
-
+//打红点
 class SameDayDecorator implements DayViewDecorator {
     @Override
     public boolean shouldDecorate(CalendarDay day) {
         Date date = new Date();
-        String str3[] = new String[2];
-        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
-        String dateStr=sdf.format(date);
-        String str="2019-7-18";
-        String str1="2019-7-18";
-//        str3[1] = str;
-//        str3[2] = str1;
-        //String dateStr = TimeUtils.Date2String(dateStr, "yyyy-MM-dd");
+//        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+//        String dateStr=sdf.format(date);
 
+
+        String str="2019-7-18";
         SimpleDateFormat sdf1= new SimpleDateFormat("yyyy-MM-dd");
 
         Date parse= null;
         try {
-            parse = sdf.parse(str);
+            parse = sdf1.parse(str);
         } catch (ParseException e) {
             e.printStackTrace();
         }
