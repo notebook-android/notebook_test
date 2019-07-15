@@ -5,10 +5,8 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -40,6 +38,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.example.notebook_test.Activity.AddScheduleActivity;
+import com.example.notebook_test.Fregment.add;
+import com.example.notebook_test.Fregment.calender;
+import com.example.notebook_test.Fregment.today;
 import com.example.notebook_test.Test.DBTestActivity;
 
 import org.json.JSONException;
@@ -129,7 +130,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.search_item) {
-            startActivity(new Intent(MainActivity.this, SearchActivity.class));
+            startActivity(new Intent(MainActivity.this,SearchActivity.class));
+            //startActivity(new Intent(MainActivity.this,test.class));
             return true;
         }
 

@@ -32,7 +32,7 @@ public class DBTestActivity extends AppCompatActivity {
         createData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Schedule schedule=new Schedule("标题测试","内容测试" , new Date(),new Date(),new Date(),false,0,0,false);
+                Schedule schedule=new Schedule("titletext","contenttext" , new Date(),new Date(),new Date(),false,0,0,false);
                 schedule.save();
 
             }
