@@ -43,8 +43,11 @@ public class SearchActivity extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
 
             super.onCreate(savedInstanceState);
+          getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
             setContentView(R.layout.activity_search);
+
 
             context = SearchActivity.this;
 

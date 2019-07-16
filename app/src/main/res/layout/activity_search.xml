@@ -47,8 +47,6 @@
 
                 android:layout_marginTop="0dp"
 
-
-
                 android:hint="请输入搜索内容"
 
                 android:maxLength="10"
@@ -71,13 +69,15 @@
 
                 android:layout_alignParentRight="true"
 
-                android:layout_centerInParent="true"
+               android:layout_centerInParent="false"
 
                 android:paddingRight="2dp"
 
-                android:src="@drawable/pic_deleteall"
+                android:src="@drawable/ic_delete_forever_indigo_50_36dp"
+                android:scrollbarSize="30dp"
 
                 android:visibility="gone" />
+
 
 
 
