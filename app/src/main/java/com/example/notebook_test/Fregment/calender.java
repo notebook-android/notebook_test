@@ -124,21 +124,22 @@ public class calender extends Fragment {
         ca.add(Calendar.MONTH, 0);
         ca.set(Calendar.DAY_OF_MONTH, 1);//设置为1号,当前日期既为本月第一天
         String firstDate = format.format(ca.getTime());
-        Log.d("当月最早一天", "shouldDecorate: " + DateFormatUtils.long2Str(ca.getTime().getTime(),false));
+        Log.d("当月最早一天", "shouldDecorate: " + DateFormatUtils.str2Long(DateFormatUtils.long2Str(ca.getTime().getTime(), false), false));
 
 
+        //DateFormatUtils.str2Long(DateFormatUtils.long2Str(ca.getTime().getTime(),false)+" 00:00",true)
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
         String lastDate = format.format(c.getTime());
-        Log.d("当月最后一天", "shouldDecorate: " + DateFormatUtils.str2Long(DateFormatUtils.long2Str(ca.getTime().getTime(),false)+" 00:00",true));
+        Log.d("当月最后一天", "shouldDecorate: " + DateFormatUtils.str2Long(DateFormatUtils.long2Str(c.getTime().getTime(), false), false));
 
         String Str[] = new String[1000];
         int j = 0;
-        long A = ca.getTime().getTime();
+        long A = DateFormatUtils.str2Long(DateFormatUtils.long2Str(ca.getTime().getTime(), false), false);
         long B = A + 86400000;//当前月第一天的起始与结束时间
 
         List<Schedule> schedules = LitePal.findAll(Schedule.class);
-        for (long i = A; i <= c.getTime().getTime(); i = i + 86400000) {
+        for (long i = A; i <= DateFormatUtils.str2Long(DateFormatUtils.long2Str(c.getTime().getTime(), false), false); i = i + 86400000) {
             for (Schedule schedule : schedules) {
                 long X = schedule.getStartTime();
                 long Y = schedule.getFinishTime();
@@ -151,10 +152,8 @@ public class calender extends Fragment {
                 } else if (X <= i && i <= (i + 86400000) && (i + 86400000) <= Y) {
                     Str[j++] = DateFormatUtils.long2Str(i, false);
                 } else {
-                    Str[j++] = "wu";
-
+                    continue;
                 }
-
             }
         }
         for (int i = 0; i < Str.length; i++) {
@@ -173,7 +172,7 @@ public class calender extends Fragment {
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
 
                 Date clickDate = date.getDate();
-                Log.d("clickeddate", clickDate.getTime() + "");
+               // Log.d("clickeddate", clickDate.getTime() + "");
                 long A = clickDate.getTime();
                 long B = A + 86400000;
                 final List<String> items = new ArrayList<String>(); //用来存储数据库的数据
