@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.notebook_test.Model.Schedule;
+import com.example.notebook_test.datepicker.DateFormatUtils;
 
 import java.util.List;
 
@@ -25,10 +26,12 @@ public class ScheduleAdapter extends ArrayAdapter<Schedule> {
         View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
         TextView title = (TextView) view.findViewById(R.id.title_view);
         TextView content = (TextView) view.findViewById(R.id.content_view);
-        TextView time = (TextView) view.findViewById(R.id.time_view);
+        TextView Starttime = (TextView) view.findViewById(R.id.Starttime_view);
+        TextView Endtime = (TextView) view.findViewById(R.id.Endtime_view);
         title.setText(schedule.getTitle());
         content.setText(schedule.getContent());
-        time.setText(schedule.getTitle());
+        Starttime.setText(DateFormatUtils.long2Str(schedule.getStartTime(),false));
+        Endtime.setText(DateFormatUtils.long2Str(schedule.getFinishTime(),false));
         return view;
     }
 }

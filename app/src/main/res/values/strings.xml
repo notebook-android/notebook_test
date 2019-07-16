@@ -4,6 +4,7 @@
     <string name="app_title_blank">1</string>
     <string name="app_welcome">欢迎回来！</string>
     <string name="app_welcome_words">欢迎来到随想！</string>
+    <string name="app_startsearch_words">请输入搜索内容</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
