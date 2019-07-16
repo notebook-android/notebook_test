@@ -118,11 +118,54 @@ public class calender extends Fragment {
 //        Calendar calendar = Calendar.getInstance();
 //        cv.setSelectedDate(calendar.getTime());
 //        cv.setSelectionColor(getResources().getColor(R.color.colorPrimary));
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+        Calendar ca = Calendar.getInstance();
+        ca.add(Calendar.MONTH, 0);
+        ca.set(Calendar.DAY_OF_MONTH, 1);//设置为1号,当前日期既为本月第一天
+        String firstDate = format.format(ca.getTime());
+        Log.d("当月最早一天", "shouldDecorate: " + DateFormatUtils.long2Str(ca.getTime().getTime(),false));
+
+
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+        String lastDate = format.format(c.getTime());
+        Log.d("当月最后一天", "shouldDecorate: " + DateFormatUtils.str2Long(DateFormatUtils.long2Str(ca.getTime().getTime(),false)+" 00:00",true));
+
+        String Str[] = new String[1000];
+        int j = 0;
+        long A = ca.getTime().getTime();
+        long B = A + 86400000;//当前月第一天的起始与结束时间
+
+        List<Schedule> schedules = LitePal.findAll(Schedule.class);
+        for (long i = A; i <= c.getTime().getTime(); i = i + 86400000) {
+            for (Schedule schedule : schedules) {
+                long X = schedule.getStartTime();
+                long Y = schedule.getFinishTime();
+                if (i <= X && X <= (i + 86400000) && (i + 86400000) <= Y) {
+                    Str[j++] = DateFormatUtils.long2Str(i, false);
+                } else if (i <= X && X <= Y && Y <= (i + 86400000)) {
+                    Str[j++] = DateFormatUtils.long2Str(i, false);
+                } else if (X <= i && i <= Y && Y <= (i + 86400000)) {
+                    Str[j++] = DateFormatUtils.long2Str(i, false);
+                } else if (X <= i && i <= (i + 86400000) && (i + 86400000) <= Y) {
+                    Str[j++] = DateFormatUtils.long2Str(i, false);
+                } else {
+                    Str[j++] = "wu";
+
+                }
+
+            }
+        }
+        for (int i = 0; i < Str.length; i++) {
+            Log.d("test", "shouldDecorate: " + Str[i]);
+
+        }
+
 
         //给当前时间添加标记
         cv.addDecorators(new NowDate());
 
-        //给事件添加标记
         cv.addDecorators(new HighlightWeekendsDecorator(), new SameDayDecorator());
 
         cv.setOnDateChangedListener(new OnDateSelectedListener() {
@@ -135,26 +178,22 @@ public class calender extends Fragment {
                 long B = A + 86400000;
                 final List<String> items = new ArrayList<String>(); //用来存储数据库的数据
                 List<Schedule> schedules = LitePal.findAll(Schedule.class);
-
+                //求时间交集的方法
                 for (Schedule schedule : schedules) {
                     long X = schedule.getStartTime();
-                    long Y= schedule.getFinishTime();
-                if(A<=X&&X<=B&&B<=Y ){
-                    items.add(schedule.getTitle());
-                }
-                else if(A<=X&&X<=Y&&Y<=B){
-                    items.add(schedule.getTitle());
-                }
-                else if(X<=A&&A<=Y&&Y<=B){
-                    items.add(schedule.getTitle());
-                }
-                else if(X<=A&&A<=B&&B<=Y){
-                    items.add(schedule.getTitle());
-                }
-                else{
-                    continue;
+                    long Y = schedule.getFinishTime();
+                    if (A <= X && X <= B && B <= Y) {
+                        items.add(schedule.getTitle());
+                    } else if (A <= X && X <= Y && Y <= B) {
+                        items.add(schedule.getTitle());
+                    } else if (X <= A && A <= Y && Y <= B) {
+                        items.add(schedule.getTitle());
+                    } else if (X <= A && A <= B && B <= Y) {
+                        items.add(schedule.getTitle());
+                    } else {
+                        continue;
 
-                }
+                    }
 
                 }
 
@@ -170,8 +209,6 @@ public class calender extends Fragment {
             }
 
         });
-
-        //求时间交集的方法
 
         return view;
     }
@@ -238,14 +275,15 @@ class HighlightWeekendsDecorator implements DayViewDecorator {
 
 //打红点
 class SameDayDecorator implements DayViewDecorator {
+
     @Override
     public boolean shouldDecorate(CalendarDay day) {
-        Date date = new Date();
-//        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
-//        String dateStr=sdf.format(date);
 
+//给事件添加标记
 
-        String str = "2019-7-18";
+        String str = "2019-07-18";
+
+//上次开始时间
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 
         Date parse = null;
@@ -259,6 +297,7 @@ class SameDayDecorator implements DayViewDecorator {
             return true;
         }
         return false;
+
     }
 
     @Override
