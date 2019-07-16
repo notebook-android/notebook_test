@@ -131,19 +131,31 @@ public class calender extends Fragment {
 
                 Date clickDate = date.getDate();
                 Log.d("clickeddate", clickDate.getTime() + "");
-                long clickDateLong = clickDate.getTime();
-                long clickDateEndLong = clickDateLong + 86400000;
-
-
+                long A = clickDate.getTime();
+                long B = A + 86400000;
                 final List<String> items = new ArrayList<String>(); //用来存储数据库的数据
-
                 List<Schedule> schedules = LitePal.findAll(Schedule.class);
 
-
                 for (Schedule schedule : schedules) {
-                    if (schedule.getStartTime() > clickDateLong && schedule.getFinishTime() < clickDateEndLong) {
-                        items.add(schedule.getTitle());
-                    }
+                    long X = schedule.getStartTime();
+                    long Y= schedule.getFinishTime();
+                if(A<=X&&X<=B&&B<=Y ){
+                    items.add(schedule.getTitle());
+                }
+                else if(A<=X&&X<=Y&&Y<=B){
+                    items.add(schedule.getTitle());
+                }
+                else if(X<=A&&A<=Y&&Y<=B){
+                    items.add(schedule.getTitle());
+                }
+                else if(X<=A&&A<=B&&B<=Y){
+                    items.add(schedule.getTitle());
+                }
+                else{
+                    continue;
+
+                }
+
                 }
 
                 ListView listView = view.findViewById(R.id.listView1); // 从布局中获取listview，也可以动态创建
@@ -156,8 +168,10 @@ public class calender extends Fragment {
                     }
                 });
             }
+
         });
 
+        //求时间交集的方法
 
         return view;
     }
@@ -303,3 +317,5 @@ class NowCircleBackGroundSpan implements LineBackgroundSpan {
         c.drawCircle((right - left) / 2, (bottom - top) / 2, 40, paint);
     }
 }
+
+
