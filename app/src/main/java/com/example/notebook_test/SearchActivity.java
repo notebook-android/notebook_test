@@ -5,9 +5,9 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -172,23 +172,23 @@ public class SearchActivity extends AppCompatActivity {
 
 
 
-//                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//                    @Override
-//
-//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                        //把cursor移动到指定行
-//
-//                        cursor.moveToPosition(position);
-//
-//                        String name = cursor.getString(cursor.getColumnIndex("name"));
-//
-//                        //ToastUtils.showToast(context, name);
-//
-//                    }
-//
-//                });
+                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        //把cursor移动到指定行
+
+                        cursor.moveToPosition(position);
+
+                        String name = cursor.getString(cursor.getColumnIndex("name"));
+
+                        //ToastUtils.showToast(context, name);
+
+                    }
+
+                });
 
             }
 
