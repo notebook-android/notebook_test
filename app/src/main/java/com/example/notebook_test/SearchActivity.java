@@ -43,7 +43,7 @@ public class SearchActivity extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
 
             super.onCreate(savedInstanceState);
-          getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
             setContentView(R.layout.activity_search);
@@ -60,7 +60,7 @@ public class SearchActivity extends AppCompatActivity {
 
         private void initView() {
 
-            mTextView = (TextView) findViewById(R.id.buttonview);
+            //mTextView = (TextView) findViewById(R.id.buttonview);
 
             mEditText = (EditText) findViewById(R.id.edittext);
 
@@ -124,30 +124,30 @@ public class SearchActivity extends AppCompatActivity {
                 public void afterTextChanged(Editable s) { }//文本改变之后执行
 
             });
-            mTextView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-
-                    //如果输入框内容为空，提示请输入搜索内容
-
-                    if(TextUtils.isEmpty(mEditText.getText().toString().trim())) {
-                        Toast.makeText(SearchActivity.this, "请输入您要搜索的内容", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-
-                        //判断items是否为空
-                        if (items.size()== 0) {
-                            Toast.makeText(SearchActivity.this, "没有查询到相关内容", Toast.LENGTH_SHORT).show();
-                        }
-
-                        }
-
-                    }
-
-
-
-
-
-            });
+//            mTextView.setOnClickListener(new View.OnClickListener() {
+//                public void onClick(View v) {
+//
+//                    //如果输入框内容为空，提示请输入搜索内容
+//
+//                    if(TextUtils.isEmpty(mEditText.getText().toString().trim())) {
+//                        Toast.makeText(SearchActivity.this, "请输入您要搜索的内容", Toast.LENGTH_SHORT).show();
+//                    }
+//                    else {
+//
+//                        //判断items是否为空
+//                        if (items.size()== 0) {
+//                            Toast.makeText(SearchActivity.this, "没有查询到相关内容", Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                        }
+//
+//                    }
+//
+//
+//
+//
+//
+//            });
 
         }
 
@@ -163,6 +163,9 @@ public class SearchActivity extends AppCompatActivity {
 
                 //获取数据库对象
                 items = LitePal.where("title like ?","%" + str +"%").find(Schedule.class);
+                if(items.isEmpty()){
+                    Toast.makeText(SearchActivity.this, "没有查询到相关内容", Toast.LENGTH_SHORT).show();
+                }
                 ScheduleAdapter adapter = new ScheduleAdapter(SearchActivity.this,R.layout.item_search,items);
                 mListView.setAdapter(adapter);
 

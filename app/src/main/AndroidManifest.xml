@@ -29,7 +29,6 @@
         <activity android:name=".Activity.RegisterActivity"/>
         <activity android:name=".Activity.findpasswordback"/>
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".test" />
         <activity android:name=".SearchActivity"
             android:parentActivityName=".MainActivity"/>
     </application>
