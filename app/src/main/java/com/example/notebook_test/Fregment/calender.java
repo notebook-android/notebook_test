@@ -96,7 +96,7 @@ public class calender extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_calender,container,false);
+        final View view = inflater.inflate(R.layout.fragment_calender, container, false);
         Bundle args = getArguments();
         //测试可用于从其他act中传值
 //        if (args != null) {
@@ -104,45 +104,13 @@ public class calender extends Fragment {
 //        }
 
 
-        //listview的事件
-
-        final List<String> items = new ArrayList<String>(); //用来存储数据库的数据
-
-        List<Schedule> item = LitePal.select("startTime").find(Schedule.class);
-
-        for(Schedule schedule:item){
-            //此处数据库修改后 修正报错
-            Log.d("asda**************", "onCreateView: "+ DateFormatUtils.long2Str(schedule.getStartTime(),true));
-
-            SimpleDateFormat sf1 = new SimpleDateFormat("EEE MMM dd hh:mm:ss z yyyy", Locale.ENGLISH);
-            Date date = null;
-
-            //此处修改
-            //date = sf1.parse(schedule.getStartTime().toString());
-            date = new Date(schedule.getStartTime());
-
-            SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd");
-            Log.d("1111:",sf2.format(date));
-            items.add(sf2.format(date));
-        }
-
-        ListView listView =  view.findViewById(R.id.listView1); // 从布局中获取listview，也可以动态创建
-        listView.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_expandable_list_item_1, items));//关联Adapter//将ListView加到适配器里
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //设置点击ListView中的条目的响应对象
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, //响应方法，其中view是一个TextView对象，position是选择条目的序号
-                                    int position, long id) {
-                Toast.makeText(getActivity(), (CharSequence) items.get(position), Toast.LENGTH_SHORT).show();
-            }
-        });
-
         //日历的响应事件
         cv = view.findViewById(R.id.cd_calendarView);
 
         //设置第一天是周几
         cv.state().edit().setFirstDayOfWeek(Calendar.SUNDAY)
-                .setMinimumDate(CalendarDay.from(2015,7,17))
-                .setMaximumDate(CalendarDay.from(2025,7,17))
+                .setMinimumDate(CalendarDay.from(2015, 7, 17))
+                .setMaximumDate(CalendarDay.from(2025, 7, 17))
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();
 
@@ -160,14 +128,41 @@ public class calender extends Fragment {
         cv.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                Log.d("asd",date.toString());
+
+                Date clickDate = date.getDate();
+                Log.d("clickeddate", clickDate.getTime() + "");
+                long clickDateLong = clickDate.getTime();
+                long clickDateEndLong = clickDateLong + 86400000;
+
+
+                final List<String> items = new ArrayList<String>(); //用来存储数据库的数据
+
+                List<Schedule> schedules = LitePal.findAll(Schedule.class);
+
+
+                for (Schedule schedule : schedules) {
+                    if (schedule.getStartTime() > clickDateLong && schedule.getFinishTime() < clickDateEndLong) {
+                        items.add(schedule.getTitle());
+                    }
+                }
+
+                ListView listView = view.findViewById(R.id.listView1); // 从布局中获取listview，也可以动态创建
+                listView.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_expandable_list_item_1, items));//关联Adapter//将ListView加到适配器里
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //设置点击ListView中的条目的响应对象
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, //响应方法，其中view是一个TextView对象，position是选择条目的序号
+                                            int position, long id) {
+                        Toast.makeText(getActivity(), (CharSequence) items.get(position), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
 
         return view;
     }
-//结束
+
+    //结束
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -226,6 +221,7 @@ class HighlightWeekendsDecorator implements DayViewDecorator {
         view.addSpan(new ForegroundColorSpan(Color.parseColor("#fd755c")));
     }
 }
+
 //打红点
 class SameDayDecorator implements DayViewDecorator {
     @Override
@@ -235,10 +231,10 @@ class SameDayDecorator implements DayViewDecorator {
 //        String dateStr=sdf.format(date);
 
 
-        String str="2019-7-18";
-        SimpleDateFormat sdf1= new SimpleDateFormat("yyyy-MM-dd");
+        String str = "2019-7-18";
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 
-        Date parse= null;
+        Date parse = null;
         try {
             parse = sdf1.parse(str);
         } catch (ParseException e) {
@@ -262,7 +258,7 @@ class CircleBackGroundSpan implements LineBackgroundSpan {
     public void drawBackground(Canvas c, Paint p, int left, int right, int top, int baseline, int bottom, CharSequence text, int start, int end, int lnum) {
         Paint paint = new Paint();
         paint.setColor(Color.parseColor("#fd755c"));
-        c.drawCircle((right - left) / 2, (bottom - top) / 2+40 , 8, paint);
+        c.drawCircle((right - left) / 2, (bottom - top) / 2 + 40, 8, paint);
     }
 }
 
@@ -274,13 +270,13 @@ class NowDate implements DayViewDecorator {
     public boolean shouldDecorate(CalendarDay day) {
         Calendar calendar = Calendar.getInstance();//获取一个calendar
 
-        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
-        String str =sdf.format(calendar.getTime());//calendar.getTime是获取当前时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String str = sdf.format(calendar.getTime());//calendar.getTime是获取当前时间
 
         //String和Date之间的转换
-        SimpleDateFormat sdf1= new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 
-        Date parse= null;
+        Date parse = null;
         try {
             parse = sdf.parse(str);
         } catch (ParseException e) {
@@ -304,6 +300,6 @@ class NowCircleBackGroundSpan implements LineBackgroundSpan {
     public void drawBackground(Canvas c, Paint p, int left, int right, int top, int baseline, int bottom, CharSequence text, int start, int end, int lnum) {
         Paint paint = new Paint();
         paint.setColor(Color.parseColor("#87CEFA"));
-        c.drawCircle((right - left) / 2, (bottom - top) / 2 , 40, paint);
+        c.drawCircle((right - left) / 2, (bottom - top) / 2, 40, paint);
     }
 }
