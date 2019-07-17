@@ -178,13 +178,9 @@ public class SearchActivity extends AppCompatActivity {
 
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                        //把cursor移动到指定行
+                        Schedule item = items.get(position);
 
-                        cursor.moveToPosition(position);
-
-                        String name = cursor.getString(cursor.getColumnIndex("name"));
-
-                        //ToastUtils.showToast(context, name);
+                        Toast.makeText(SearchActivity.this,item.getTitle(),Toast.LENGTH_LONG).show();
 
                     }
 
