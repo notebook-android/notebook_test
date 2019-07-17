@@ -2,9 +2,9 @@ package com.example.notebook_test.Model;
 
 import org.litepal.crud.LitePalSupport;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class Schedule extends LitePalSupport {
+public class Schedule extends LitePalSupport implements Serializable {
 
     private int id;         //primarykey autoincrement 主键 自增
 

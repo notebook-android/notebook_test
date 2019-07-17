@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/click_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/click_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="48dp"
+        />
+    <TextView
+        android:id="@+id/click_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"/>
+    <TextView
+        android:id="@+id/click_if_allday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="35dp"
+        />
+    <TextView
+        android:id="@+id/click_Reptition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="35dp"
+        />
+    <TextView
+        android:id="@+id/click_creattime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="任务创建时间"
+        android:textSize="25dp"/>
+    <TextView
+        android:id="@+id/click_starttime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="任务开始时间："
+        android:textSize="25dp"/>
+    <TextView
+        android:id="@+id/click_endtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="任务结束时间："
+        android:textSize="25dp"/>
+
+
+</LinearLayout>

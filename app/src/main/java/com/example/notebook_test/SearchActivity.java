@@ -1,6 +1,7 @@
 package com.example.notebook_test;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -43,11 +44,8 @@ public class SearchActivity extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
 
             super.onCreate(savedInstanceState);
-            //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
             setContentView(R.layout.activity_search);
-
 
             context = SearchActivity.this;
 
@@ -178,9 +176,12 @@ public class SearchActivity extends AppCompatActivity {
 
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                        Schedule item = items.get(position);
+                        Schedule schedule = items.get(position);
 
-                        Toast.makeText(SearchActivity.this,item.getTitle(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(SearchActivity.this,schedule.getTitle(),Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(SearchActivity.this, ItemClick.class);
+                        intent.putExtra("Schedule", schedule);
+                        startActivity(intent);
 
                     }
 
