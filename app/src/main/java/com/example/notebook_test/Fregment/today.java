@@ -1,20 +1,35 @@
 package com.example.notebook_test.Fregment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.notebook_test.ItemClick;
+import com.example.notebook_test.Model.Date;
+import com.example.notebook_test.Model.Schedule;
 import com.example.notebook_test.R;
+import com.example.notebook_test.ScheduleAdapter;
+import com.example.notebook_test.SearchActivity;
+import com.example.notebook_test.datepicker.DateFormatUtils;
 
+import org.litepal.LitePal;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -25,12 +40,12 @@ import java.util.List;
  * Use the {@link today#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class today extends Fragment{
+public class today extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    ListView listView;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -72,7 +87,7 @@ public class today extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_today, container, false);
+        View view = inflater.inflate(R.layout.fragment_today, container, false);
         Bundle args = getArguments();
         //测试可用于从其他act中传值
 //        if (args != null) {
@@ -80,27 +95,58 @@ public class today extends Fragment{
 //        }
         //listview的事件
 
-        final List<String> items = new ArrayList<String>(); //设置要显示的数据，这里因为是例子，所以固定写死
-        items.add("item1");
-        items.add("item2");
-        items.add("item3");
-        items.add("item4");
-        items.add("item5");
-        items.add("item6");
-        ListView listView =  (ListView)view.findViewById(R.id.listView1); // 从布局中获取listview，也可以动态创建
-        listView.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_expandable_list_item_1, items));//关联Adapter//将ListView加到适配器里
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //设置点击ListView中的条目的响应对象
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, //响应方法，其中view是一个TextView对象，position是选择条目的序号
-//                                    int position, long id) {
-//                Toast.makeText(getActivity(), items.get(position), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//        final List<String> items = new ArrayList<String>(); //设置要显示的数据，这里因为是例子，所以固定写死
+//        items.add("item1");
+//        items.add("item2");
+//        items.add("item3");
+//        items.add("item4");
+//        items.add("item5");
+//        items.add("item6");
+        //获取数据库对象
+        Calendar calendar = Calendar.getInstance();//获取一个calendar
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String str = sdf.format(calendar.getTime());//calendar.getTime是获取当前时间
+//        DateFormatUtils.str2Long(str,false);
+        long A =DateFormatUtils.str2Long(str,false)+28800000;
+        Log.d("as",DateFormatUtils.str2Long(str,false)+28800000+"");
+        Log.d("as111",calendar.getTimeInMillis()+"");
+        long B = A + 86400000;
+        final List<Schedule> items = new ArrayList<Schedule>(); //用来存储数据库的数据
+        List<Schedule> schedules = LitePal.findAll(Schedule.class);
+        //求时间交集的方法
+        for (Schedule schedule : schedules) {
+            long X = schedule.getStartTime();
+            long Y = schedule.getFinishTime();
+            if (A <= X && X <= B && B <= Y) {
+                items.add(schedule);
+            } else if (A <= X && X <= Y && Y <= B) {
+                items.add(schedule);
+            } else if (X <= A && A <= Y && Y <= B) {
+                items.add(schedule);
+            } else if (X <= A && A <= B && B <= Y) {
+                items.add(schedule);
+            } else {
+                continue;
+            }
+        }
+
+        if(items.isEmpty()){
+            Toast.makeText(getActivity(), "没有查询到相关内容", Toast.LENGTH_SHORT).show();
+        }
+        ScheduleAdapter adapter = new ScheduleAdapter(getActivity(),R.layout.item_search,items);
+        listView = (ListView) view.findViewById(R.id.listView1);
+        listView.setAdapter(adapter);
+
+        // 从布局中获取listview，也可以动态创建
+        //listView.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_expandable_list_item_1, items));//关联Adapter//将ListView加到适配器里
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //设置点击ListView中的条目的响应对象
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity(), items.get(i), Toast.LENGTH_SHORT).show();
-                return false;
+            public void onItemClick(AdapterView<?> parent, View view, //响应方法，其中view是一个TextView对象，position是选择条目的序号
+                                    int position, long id) {
+                Schedule schedule = items.get(position);
+                Intent intent = new Intent(getActivity(), ItemClick.class);
+                intent.putExtra("Schedule", schedule);
+                startActivity(intent);
             }
         });
 
@@ -146,4 +192,5 @@ public class today extends Fragment{
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

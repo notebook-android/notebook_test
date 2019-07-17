@@ -3,6 +3,7 @@ package com.example.notebook_test;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -21,7 +22,7 @@ import org.litepal.LitePal;
 
 import java.util.Calendar;
 
-public class ItemClick extends Activity implements View.OnClickListener {
+public class ItemClick extends AppCompatActivity implements View.OnClickListener {
     private Schedule schedule;
     private ImageView Type;
     private TextView Title;
@@ -44,6 +45,11 @@ public class ItemClick extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.searchitems_click);
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         initView();
 
     }

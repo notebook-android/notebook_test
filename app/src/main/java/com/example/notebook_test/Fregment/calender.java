@@ -1,6 +1,7 @@
 package com.example.notebook_test.Fregment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -20,9 +21,11 @@ import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.notebook_test.ItemClick;
 import com.example.notebook_test.Model.MyCalendarBean;
 import com.example.notebook_test.Model.Schedule;
 import com.example.notebook_test.R;
+import com.example.notebook_test.ScheduleAdapter;
 import com.example.notebook_test.datepicker.DateFormatUtils;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
@@ -60,10 +63,30 @@ public class calender extends Fragment {
     private String mParam2;
     private MaterialCalendarView cv;
     private OnFragmentInteractionListener mListener;
-
+    private calender f1;
+    private today f2;
+    private add f3;
     public calender() {
         // Required empty public constructor
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Toast toast = Toast.makeText(getActivity(), "onResume", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+//    @Override
+//    public void onHiddenChanged(boolean hidden) {
+//        // TODO Auto-generated method stub
+//        super.onHiddenChanged(hidden);
+//        if ( f1!= null && !hidden) {
+//            Toast toast = Toast.makeText(getActivity(), "onResumekk", Toast.LENGTH_SHORT);
+//            toast.show();
+//            Log.d("asd","changed");
+//        }
+//    }
 
     /**
      * Use this factory method to create a new instance of
@@ -154,19 +177,20 @@ public class calender extends Fragment {
             }
         }
 
-        int x=j;
-        String xx=String.valueOf(x);
-        Log.d("数组长度",xx);
+        int x = j;
+        String xx = String.valueOf(x);
+        Log.d("数组长度", xx);
         for (int i = 0; i < j; i++) {
-            if(Str[i]==null)
-                Str[i]="2015-01-01";
+            if (Str[i] == null)
+                Str[i] = "2015-01-01";
             else
-                Str[i]=Str[i];
+                Str[i] = Str[i];
 
         }
-        for(int i=0;i<j;i++){
-            cv.addDecorators(  new SameDayDecorator(Str[i]));
-        }
+        Log.d("j=", String.valueOf(j));
+        //for(int i=0;i<j;i++){
+        cv.addDecorators(new SameDayDecorator(Str,j));
+        //}
 
 
         //给当前时间添加标记
@@ -179,37 +203,41 @@ public class calender extends Fragment {
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
 
                 Date clickDate = date.getDate();
-               // Log.d("clickeddate", clickDate.getTime() + "");
+                // Log.d("clickeddate", clickDate.getTime() + "");
                 long A = clickDate.getTime();
                 long B = A + 86400000;
-                final List<String> items = new ArrayList<String>(); //用来存储数据库的数据
+                final List<Schedule> items = new ArrayList<Schedule>(); //用来存储数据库的数据
                 List<Schedule> schedules = LitePal.findAll(Schedule.class);
                 //求时间交集的方法
                 for (Schedule schedule : schedules) {
                     long X = schedule.getStartTime();
                     long Y = schedule.getFinishTime();
                     if (A <= X && X <= B && B <= Y) {
-                        items.add(schedule.getTitle());
+                        items.add(schedule);
                     } else if (A <= X && X <= Y && Y <= B) {
-                        items.add(schedule.getTitle());
+                        items.add(schedule);
                     } else if (X <= A && A <= Y && Y <= B) {
-                        items.add(schedule.getTitle());
+                        items.add(schedule);
                     } else if (X <= A && A <= B && B <= Y) {
-                        items.add(schedule.getTitle());
+                        items.add(schedule);
                     } else {
                         continue;
 
                     }
 
                 }
-
-                ListView listView = view.findViewById(R.id.listView1); // 从布局中获取listview，也可以动态创建
-                listView.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_expandable_list_item_1, items));//关联Adapter//将ListView加到适配器里
+                ListView listView;
+                ScheduleAdapter adapter = new ScheduleAdapter(getActivity(),R.layout.item_search,items);
+                listView = (ListView) view.findViewById(R.id.listView1);
+                listView.setAdapter(adapter);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //设置点击ListView中的条目的响应对象
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, //响应方法，其中view是一个TextView对象，position是选择条目的序号
                                             int position, long id) {
-                        Toast.makeText(getActivity(), (CharSequence) items.get(position), Toast.LENGTH_SHORT).show();
+                        Schedule schedule = items.get(position);
+                        Intent intent = new Intent(getActivity(), ItemClick.class);
+                        intent.putExtra("Schedule", schedule);
+                        startActivity(intent);
                     }
                 });
             }
@@ -281,36 +309,27 @@ class HighlightWeekendsDecorator implements DayViewDecorator {
 
 //打红点
 class SameDayDecorator implements DayViewDecorator {
-   private String Str;
+    private String[] Str;
+    private int length;
 
-    public SameDayDecorator(String s) {
-           this.Str=s;
+    public SameDayDecorator(String[] s,int length) {
+        this.Str = s;
+        this.length=length;
     }
 
 
     @Override
     public boolean shouldDecorate(CalendarDay day) {
-
-
-        Log.d("单个数据", "shouldDecorate: " + Str);
-
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-
         Date parse = null;
-
-        try {
-            parse = sdf1.parse(Str);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        for(int i=0;i<length;i++)
+        {
+            if (DateFormatUtils.long2Str(day.getCalendar().getTimeInMillis(),false).equals(Str[i])) {
+                return true;
+            }
         }
-
-        //Date parse = TimeUtils.string2Date(dateStr, "yyyy-MM-dd");
-        if (day.getDate().equals(parse)) {
-            return true;
-        }
-
         return false;
-        }
+    }
 
 
     @Override
@@ -324,7 +343,7 @@ class CircleBackGroundSpan implements LineBackgroundSpan {
     public void drawBackground(Canvas c, Paint p, int left, int right, int top, int baseline, int bottom, CharSequence text, int start, int end, int lnum) {
         Paint paint = new Paint();
         paint.setColor(Color.parseColor("#fd755c"));
-        c.drawCircle((right - left) / 2, (bottom - top) / 2 + 40, 8, paint);
+        c.drawCircle((right - left) / 2, (bottom - top) / 2 + 50, 8, paint);
     }
 }
 
@@ -366,7 +385,7 @@ class NowCircleBackGroundSpan implements LineBackgroundSpan {
     public void drawBackground(Canvas c, Paint p, int left, int right, int top, int baseline, int bottom, CharSequence text, int start, int end, int lnum) {
         Paint paint = new Paint();
         paint.setColor(Color.parseColor("#87CEFA"));
-        c.drawCircle((right - left) / 2, (bottom - top) / 2, 30, paint);
+        c.drawCircle((right - left) / 2, (bottom - top) / 2, 40, paint);
     }
 }
 

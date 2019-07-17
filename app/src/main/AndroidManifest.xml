@@ -31,7 +31,8 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".SearchActivity"
             android:parentActivityName=".MainActivity"/>
-        <activity android:name=".ItemClick" />
+        <activity android:name=".ItemClick"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

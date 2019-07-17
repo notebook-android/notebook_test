@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity
     private calender f1;
     private today f2;
     private add f3;
-    private android.support.v4.app.FragmentManager fragmentManager;
+    private android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
     private SessionManager session;
     private TextView txtName;
     private TextView txtEmail;
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.search_item) {
-            startActivity(new Intent(MainActivity.this,SearchActivity.class));
+            startActivity(new Intent(MainActivity.this, SearchActivity.class));
             //startActivity(new Intent(MainActivity.this,test.class));
             return true;
         }
@@ -174,15 +174,16 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            fragmentManager = getSupportFragmentManager();
+//            fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             hideAllFragment(transaction);
-            TextView title=findViewById(R.id.toolbar_title);
+            TextView title = findViewById(R.id.toolbar_title);
             switch (item.getItemId()) {
                 case R.id.navigation_calender:
                     title.setText("随想日历");
                     if (f1 == null) {
                         f1 = calender.newInstance("hello", "world");
+                        Log.d("touch**************", "日历");
                         transaction.add(R.id.fragment_container, f1);
                     } else {
                         transaction.show(f1);
@@ -216,9 +217,10 @@ public class MainActivity extends AppCompatActivity
     private void bindView() {
         BottomNavigationView navView = findViewById(R.id.bnv_view);
         //设置开屏默认页面 为today视图
-        fragmentManager = getSupportFragmentManager();
+//        fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        TextView title=findViewById(R.id.toolbar_title);
+        hideAllFragment(transaction);
+        TextView title = findViewById(R.id.toolbar_title);
         title.setText("今日随想");
         f2 = today.newInstance("hello", "world");
         transaction.add(R.id.fragment_container, f2);
@@ -227,6 +229,8 @@ public class MainActivity extends AppCompatActivity
         navView.setSelectedItemId(navView.getMenu().getItem(1).getItemId());
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
+
+
 
 
     //隐藏所有Fragment
