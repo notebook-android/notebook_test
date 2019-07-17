@@ -55,7 +55,11 @@ public class today extends Fragment {
     public today() {
         // Required empty public constructor
     }
-
+    @Override
+    public void onResume() {
+        Log.d("into today`s on resume","OK");
+        super.onResume();
+    }
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.

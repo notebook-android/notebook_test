@@ -72,9 +72,8 @@ public class calender extends Fragment {
 
     @Override
     public void onResume() {
+        Log.d("into calender`s on resume","OK");
         super.onResume();
-        Toast toast = Toast.makeText(getActivity(), "onResume", Toast.LENGTH_SHORT);
-        toast.show();
     }
 
 //    @Override

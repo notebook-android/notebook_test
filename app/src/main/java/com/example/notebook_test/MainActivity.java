@@ -183,9 +183,11 @@ public class MainActivity extends AppCompatActivity
                     title.setText("随想日历");
                     if (f1 == null) {
                         f1 = calender.newInstance("hello", "world");
-                        Log.d("touch**************", "日历");
+
                         transaction.add(R.id.fragment_container, f1);
                     } else {
+                        Log.d("touch**************", "日历");
+                        f2.onStart();
                         transaction.show(f1);
                     }
                     break;
@@ -195,7 +197,9 @@ public class MainActivity extends AppCompatActivity
                         f2 = today.newInstance("hello", "world");
                         transaction.add(R.id.fragment_container, f2);
                     } else {
-                        transaction.show(f2);
+                        f2.onDestroy();
+                        f2 = today.newInstance("hello", "world");
+                        transaction.add(R.id.fragment_container, f2);
                     }
                     break;
                 case R.id.navigation_add:
@@ -205,6 +209,7 @@ public class MainActivity extends AppCompatActivity
                         transaction.add(R.id.fragment_container, f3);
                     } else {
                         transaction.show(f3);
+                        f3.onResume();
                     }
                     break;
             }
