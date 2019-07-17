@@ -185,12 +185,11 @@ public class MainActivity extends AppCompatActivity
                     title.setText("随想日历");
                     if (f1 == null) {
                         f1 = calender.newInstance("hello", "world");
-
                         transaction.add(R.id.fragment_container, f1);
                     } else {
-                        Log.d("touch**************", "日历");
-                        f2.onStart();
-                        transaction.show(f1);
+                        f1.onDestroy();
+                        f1 = calender.newInstance("hello", "world");
+                        transaction.add(R.id.fragment_container, f1);
                     }
                     break;
                 case R.id.navigation_today:
