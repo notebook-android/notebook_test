@@ -58,7 +58,7 @@ public class findpasswordback extends Activity {
         // Progress dialog
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
-
+        //pDialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
         // Session manager
         session = new SessionManager(getApplicationContext());
 

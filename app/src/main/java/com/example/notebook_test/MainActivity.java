@@ -145,13 +145,15 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_account) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-            startActivity(new Intent(MainActivity.this, DBTestActivity.class));
-            return true;
-        } else if (id == R.id.nav_slideshow) {
-//            startActivity(new Intent(MainActivity.this, AddScheduleActivity.class));
-            return true;
-        } else if (id == R.id.nav_settings) {
+        }
+//        else if (id == R.id.nav_gallery) {
+//            startActivity(new Intent(MainActivity.this, DBTestActivity.class));
+//            return true;
+//        } else if (id == R.id.nav_slideshow) {
+////            startActivity(new Intent(MainActivity.this, AddScheduleActivity.class));
+//            return true;
+//        }
+        else if (id == R.id.nav_settings) {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             return true;
         } else if (id == R.id.nav_help) {

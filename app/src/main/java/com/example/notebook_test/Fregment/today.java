@@ -135,7 +135,7 @@ public class today extends Fragment {
         }
 
         if(items.isEmpty()){
-            Toast.makeText(getActivity(), "没有查询到相关内容", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "今日暂无日程安排", Toast.LENGTH_SHORT).show();
         }
         ScheduleAdapter adapter = new ScheduleAdapter(getActivity(),R.layout.item_search,items);
         listView = (ListView) view.findViewById(R.id.listView1);
