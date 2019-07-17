@@ -9,12 +9,15 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.notebook_test.Activity.ScheduleRepetitionChoose;
 import com.example.notebook_test.Activity.ScheduleTypeChoose;
 import com.example.notebook_test.Model.Schedule;
 import com.example.notebook_test.datepicker.CustomDatePicker;
 import com.example.notebook_test.datepicker.DateFormatUtils;
+
+import org.litepal.LitePal;
 
 import java.util.Calendar;
 
@@ -133,19 +136,6 @@ public class ItemClick extends Activity implements View.OnClickListener {
             case R.id.click_schedule_startTime:
                 // 日期格式为yyyy-MM-dd HH:mm
                 mStartTimerPicker.show(mTvSelectedStartTime.getText().toString());
-
-//                //String2Date
-//                Date testDate = null;
-//                String ss = mTvSelectedStartTime.getText().toString();
-//                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//                try {
-//                    testDate = dateFormat.parse(ss);
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//                Log.d(TAG, "onClick: " + testDate);
-
-//                Log.d(TAG, "onClick:" + mTvSelectedStartTime.getText().toString());
                 break;
 
             case R.id.click_schedule_finishTime:
@@ -164,9 +154,35 @@ public class ItemClick extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.click_schedule_update_button:
+                title = ((TextView) findViewById(R.id.click_schedule_title_EditView)).getText().toString();
+                content = ((TextView) findViewById(R.id.click_schedule_content_editview)).getText().toString();
+                createTime = System.currentTimeMillis();
+                startTime = DateFormatUtils.str2Long(mTvSelectedStartTime.getText().toString(), true);
+                finishTime = DateFormatUtils.str2Long(mTvSelectedFinishTime.getText().toString(), true);
+                repetition = getRepetitionState();
+                type = getTypeState();
+
+                Schedule schedule=new Schedule();
+                schedule.setTitle(title);
+                schedule.setContent(content);
+                schedule.setCreateTime(createTime);
+                schedule.setStartTime(startTime);
+                schedule.setFinishTime(finishTime);
+                schedule.setRepetition(repetition);
+                schedule.setType(type);
+                schedule.update(this.schedule.getId());
+
+                Toast toast = Toast.makeText(ItemClick.this, "修改成功", Toast.LENGTH_SHORT);
+                toast.show();
+                finish();
+
                 break;
 
             case R.id.click_schedule_delete_button:
+                LitePal.delete(Schedule.class,this.schedule.getId());
+                Toast toast1 = Toast.makeText(ItemClick.this, "删除成功", Toast.LENGTH_SHORT);
+                toast1.show();
+                finish();
                 break;
         }
     }

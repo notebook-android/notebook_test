@@ -117,4 +117,5 @@ public class Schedule extends LitePalSupport implements Serializable {
         this.type = type;
         this.delete = delete;
     }
+    public  Schedule(){}
 }
