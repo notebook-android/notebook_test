@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#03A9F4</color>
     <color name="colorPrimaryDark">#00BCD4</color>
-    <color name="colorAccent">#D3D3D3</color>
+    <color name="colorAccent">#D81B60</color>
     <color name="black">#000000</color>//给content里的日历布局
     <color name="orangeRed">#f9fc807a</color>//给content里的日历布局
 
