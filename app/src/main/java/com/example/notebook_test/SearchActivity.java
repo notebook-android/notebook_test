@@ -23,105 +23,105 @@ import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
 
-        private EditText mEditText;
+    private EditText mEditText;
 
-        private ImageView mImageView;
+    private ImageView mImageView;
 
-        private ListView mListView;
+    private ListView mListView;
 
-        private TextView mTextView;
+    private TextView mTextView;
 
-        List<Schedule> items;
+    List<Schedule> items;
 
-        Context context;
+    Context context;
 
-        Cursor cursor;
-
-
-
-        @Override
-
-        protected void onCreate(Bundle savedInstanceState) {
-
-            super.onCreate(savedInstanceState);
-
-            setContentView(R.layout.activity_search);
-
-            context = SearchActivity.this;
-
-            initView();
-
-        }
+    Cursor cursor;
 
 
+    @Override
+
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_search);
+
+        context = SearchActivity.this;
+
+        initView();
+
+    }
 
 
-        private void initView() {
+    private void initView() {
 
-            //mTextView = (TextView) findViewById(R.id.buttonview);
+        //mTextView = (TextView) findViewById(R.id.buttonview);
 
-            mEditText = (EditText) findViewById(R.id.edittext);
+        mEditText = (EditText) findViewById(R.id.edittext);
 
-            mImageView = (ImageView) findViewById(R.id.imageview);
+        mImageView = (ImageView) findViewById(R.id.imageview);
 
-            mListView = (ListView) findViewById(R.id.listview);
+        mListView = (ListView) findViewById(R.id.listview);
 
 
+        //设置删除图片的点击事件
 
-            //设置删除图片的点击事件
+        mImageView.setOnClickListener(new View.OnClickListener() {
 
-            mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
 
-                @Override
+            public void onClick(View v) {
 
-                public void onClick(View v) {
+                //把EditText内容设置为空
 
-                    //把EditText内容设置为空
+                mEditText.setText("");
 
-                    mEditText.setText("");
+                //把ListView隐藏
 
-                    //把ListView隐藏
+                mListView.setVisibility(View.GONE);
 
-                    mListView.setVisibility(View.GONE);
+            }
+
+        });
+
+        //EditText添加监听
+
+        mEditText.addTextChangedListener(new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }//文本改变之前执行
+
+            @Override
+
+            //文本改变的时候执行
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                //如果长度为0
+
+                if (s.length() == 0) {
+
+                    //隐藏“删除”图片
+
+                    mImageView.setVisibility(View.GONE);
+
+                } else {//长度不为0
+
+                    //显示“删除图片”
+
+                    mImageView.setVisibility(View.VISIBLE);
+
+                    //显示ListView
+                    showListView();
+
 
                 }
 
-            });
+            }
 
-            //EditText添加监听
+            public void afterTextChanged(Editable s) {
+            }//文本改变之后执行
 
-            mEditText.addTextChangedListener(new TextWatcher() {
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}//文本改变之前执行
-                @Override
-
-                //文本改变的时候执行
-
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    //如果长度为0
-
-                    if (s.length() == 0) {
-
-                        //隐藏“删除”图片
-
-                        mImageView.setVisibility(View.GONE);
-
-                    } else {//长度不为0
-
-                        //显示“删除图片”
-
-                        mImageView.setVisibility(View.VISIBLE);
-
-                        //显示ListView
-                        showListView();
-
-
-                    }
-
-                }
-                public void afterTextChanged(Editable s) { }//文本改变之后执行
-
-            });
+        });
 //            mTextView.setOnClickListener(new View.OnClickListener() {
 //                public void onClick(View v) {
 //
@@ -147,49 +147,45 @@ public class SearchActivity extends AppCompatActivity {
 //
 //            });
 
+    }
+
+
+    private void showListView() {
+
+        mListView.setVisibility(View.VISIBLE);
+
+        //获得输入的内容
+
+        String str = mEditText.getText().toString().trim();
+
+        //获取数据库对象
+        items = LitePal.where("title like ? or content like ?", "%" + str + "%", "%" + str + "%").find(Schedule.class);
+        if (items.isEmpty()) {
+            Toast.makeText(SearchActivity.this, "没有查询到相关内容", Toast.LENGTH_SHORT).show();
         }
+        ScheduleAdapter adapter = new ScheduleAdapter(SearchActivity.this, R.layout.item_search, items);
+        mListView.setAdapter(adapter);
 
 
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            private void showListView() {
+            @Override
 
-                mListView.setVisibility(View.VISIBLE);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                //获得输入的内容
+                Schedule schedule = items.get(position);
 
-                String str = mEditText.getText().toString().trim();
-
-                //获取数据库对象
-                items = LitePal.where("title like ? or content like ?","%" + str +"%","%" + str +"%").find(Schedule.class);
-                if(items.isEmpty()){
-                    Toast.makeText(SearchActivity.this, "没有查询到相关内容", Toast.LENGTH_SHORT).show();
-                }
-                ScheduleAdapter adapter = new ScheduleAdapter(SearchActivity.this,R.layout.item_search,items);
-                mListView.setAdapter(adapter);
-
-
-
-
-                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                    @Override
-
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                        Schedule schedule = items.get(position);
-
-                        Toast.makeText(SearchActivity.this,schedule.getTitle(),Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(SearchActivity.this, ItemClick.class);
-                        intent.putExtra("Schedule", schedule);
-                        startActivity(intent);
-
-                    }
-
-                });
+                Intent intent = new Intent(SearchActivity.this, ItemClick.class);
+                intent.putExtra("Schedule", schedule);
+                startActivity(intent);
 
             }
 
-        }
+        });
+
+    }
+
+}
 
 
 

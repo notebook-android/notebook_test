@@ -34,10 +34,10 @@ public class ScheduleAdapter extends ArrayAdapter<Schedule> {
         TextView Endtime = (TextView) view.findViewById(R.id.Endtime_view);
         imageView.setImageResource(getImageId(schedule.getType()));
         title.setText(schedule.getTitle());
-        createTime.setText(DateFormatUtils.long2Str(schedule.getCreateTime(),false));
+        createTime.setText(DateFormatUtils.long2Str(schedule.getCreateTime(),true));
         content.setText(schedule.getContent());
-        Starttime.setText(DateFormatUtils.long2Str(schedule.getStartTime(),false));
-        Endtime.setText(DateFormatUtils.long2Str(schedule.getFinishTime(),false));
+        Starttime.setText(DateFormatUtils.long2Str(schedule.getStartTime(),true));
+        Endtime.setText(DateFormatUtils.long2Str(schedule.getFinishTime(),true));
         return view;
     }
 
