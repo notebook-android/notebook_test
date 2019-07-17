@@ -114,12 +114,8 @@ public class calender extends Fragment {
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();
 
-        //获取当前时间
-//        Calendar calendar = Calendar.getInstance();
-//        cv.setSelectedDate(calendar.getTime());
-//        cv.setSelectionColor(getResources().getColor(R.color.colorPrimary));
+        //当前
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
         Calendar ca = Calendar.getInstance();
         ca.add(Calendar.MONTH, 0);
         ca.set(Calendar.DAY_OF_MONTH, 1);//设置为1号,当前日期既为本月第一天
@@ -132,8 +128,8 @@ public class calender extends Fragment {
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
         String lastDate = format.format(c.getTime());
         Log.d("当月最后一天", "shouldDecorate: " + DateFormatUtils.str2Long(DateFormatUtils.long2Str(c.getTime().getTime(), false), false));
-
         String Str[] = new String[1000];
+        String Str1[] = new String[1000];
         int j = 0;
         long A = DateFormatUtils.str2Long(DateFormatUtils.long2Str(ca.getTime().getTime(), false), false);
         long B = A + 86400000;//当前月第一天的起始与结束时间
@@ -145,6 +141,7 @@ public class calender extends Fragment {
                 long Y = schedule.getFinishTime();
                 if (i <= X && X <= (i + 86400000) && (i + 86400000) <= Y) {
                     Str[j++] = DateFormatUtils.long2Str(i, false);
+
                 } else if (i <= X && X <= Y && Y <= (i + 86400000)) {
                     Str[j++] = DateFormatUtils.long2Str(i, false);
                 } else if (X <= i && i <= Y && Y <= (i + 86400000)) {
@@ -156,16 +153,26 @@ public class calender extends Fragment {
                 }
             }
         }
-        for (int i = 0; i < Str.length; i++) {
-            Log.d("test", "shouldDecorate: " + Str[i]);
 
+        int x=j;
+        String xx=String.valueOf(x);
+        Log.d("数组长度",xx);
+        for (int i = 0; i < j; i++) {
+            if(Str[i]==null)
+                Str[i]="2015-01-01";
+            else
+                Str[i]=Str[i];
+
+        }
+        for(int i=0;i<j;i++){
+            cv.addDecorators(  new SameDayDecorator(Str[i]));
         }
 
 
         //给当前时间添加标记
         cv.addDecorators(new NowDate());
 
-        cv.addDecorators(new HighlightWeekendsDecorator(), new SameDayDecorator());
+        cv.addDecorators(new HighlightWeekendsDecorator());
 
         cv.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
@@ -274,30 +281,37 @@ class HighlightWeekendsDecorator implements DayViewDecorator {
 
 //打红点
 class SameDayDecorator implements DayViewDecorator {
+   private String Str;
+
+    public SameDayDecorator(String s) {
+           this.Str=s;
+    }
+
 
     @Override
     public boolean shouldDecorate(CalendarDay day) {
 
-//给事件添加标记
 
-        String str = "2019-07-18";
+        Log.d("单个数据", "shouldDecorate: " + Str);
 
-//上次开始时间
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 
         Date parse = null;
+
         try {
-            parse = sdf1.parse(str);
+            parse = sdf1.parse(Str);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         //Date parse = TimeUtils.string2Date(dateStr, "yyyy-MM-dd");
         if (day.getDate().equals(parse)) {
             return true;
         }
-        return false;
 
-    }
+        return false;
+        }
+
 
     @Override
     public void decorate(DayViewFacade view) {
@@ -352,7 +366,7 @@ class NowCircleBackGroundSpan implements LineBackgroundSpan {
     public void drawBackground(Canvas c, Paint p, int left, int right, int top, int baseline, int bottom, CharSequence text, int start, int end, int lnum) {
         Paint paint = new Paint();
         paint.setColor(Color.parseColor("#87CEFA"));
-        c.drawCircle((right - left) / 2, (bottom - top) / 2, 40, paint);
+        c.drawCircle((right - left) / 2, (bottom - top) / 2, 30, paint);
     }
 }
 
