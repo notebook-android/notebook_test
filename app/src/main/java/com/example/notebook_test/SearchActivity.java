@@ -162,7 +162,7 @@ public class SearchActivity extends AppCompatActivity {
                 String str = mEditText.getText().toString().trim();
 
                 //获取数据库对象
-                items = LitePal.where("title like ?","%" + str +"%").find(Schedule.class);
+                items = LitePal.where("title like ? or content like ?","%" + str +"%","%" + str +"%").find(Schedule.class);
                 if(items.isEmpty()){
                     Toast.makeText(SearchActivity.this, "没有查询到相关内容", Toast.LENGTH_SHORT).show();
                 }
