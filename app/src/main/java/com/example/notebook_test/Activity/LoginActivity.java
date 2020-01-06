@@ -37,7 +37,7 @@ public class LoginActivity extends Activity {
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
-    private String ip = "ruitsai.top";
+    private String ip = "ruitsai.tech";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,7 +129,7 @@ public class LoginActivity extends Activity {
                         .add("password", password)
                         .build();
                 Request request = new Request.Builder()
-                        .url("http://" + ip + "/android_login_api/")
+                        .url("https://" + ip + "/login_api/")
                         .post(requestBody)
                         .build();
                 try {
