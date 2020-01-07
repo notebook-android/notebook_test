@@ -129,7 +129,7 @@ public class LoginActivity extends Activity {
                         .add("password", password)
                         .build();
                 Request request = new Request.Builder()
-                        .url("https://" + ip + "/login_api/")
+                        .url("http://" + ip + "/android_login_api/")
                         .post(requestBody)
                         .build();
                 try {
